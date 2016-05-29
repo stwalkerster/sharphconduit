@@ -1,10 +1,30 @@
 ﻿namespace Stwalkerster.ConduitClient
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
-    public abstract class TransactionalObject
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T">The datatype of the identifier</typeparam>
+    public abstract class TransactionalObject<T>
     {
         private readonly Dictionary<string, Transaction> pendingTransactions = new Dictionary<string, Transaction>();
+
+        private DateTime dateCreated;
+
+        private DateTime dateModified;
+
+        protected TransactionalObject()
+        {
+        }
+
+        protected TransactionalObject(int dateCreated, int dateModified)
+        {
+            this.dateCreated = new DateTime().AddSeconds(dateCreated);
+            this.dateModified = new DateTime().AddSeconds(dateModified);
+        }
 
         protected internal Dictionary<string, Transaction> PendingTransactions
         {
@@ -14,20 +34,41 @@
             }
         }
 
-        public object Identifier { get; internal set; }
+        public string Uri { get; internal set; }
+
+        public T Identifier { get; internal set; }
 
         public string ObjectPHID { get; internal set; }
 
-        internal void ClearTransactions()
+        public DateTime DateCreated
         {
-            this.pendingTransactions.Clear();
+            get
+            {
+                return this.dateCreated;
+            }
+        }
+
+        public DateTime DateModified
+        {
+            get
+            {
+                return this.dateModified;
+            }
         }
 
         internal List<Transaction> GetTransactions()
         {
-            return new List<Transaction>(this.pendingTransactions.Values);
+            return new List<Transaction>(this.pendingTransactions.Values.Where(x => !x.Invalided));
         }
-        
+
+        internal void InvalidateTransactions()
+        {
+            foreach (var trans in this.pendingTransactions.Values)
+            {
+                trans.Invalided = true;
+            }
+        }
+
         /// <summary>
         /// Gets the current value of a property
         /// </summary>
@@ -58,12 +99,12 @@
         /// <param name="type"></param>
         /// <param name="originalValue"></param>
         /// <returns></returns>
-        protected string GetValue(string type, string originalValue)
+        protected TV GetValue<TV>(string type, TV originalValue)
         {
             Transaction transaction;
             if (this.pendingTransactions.TryGetValue(type, out transaction))
             {
-                return (string)transaction.Value;
+                return (TV)transaction.Value;
             }
 
             return originalValue;
@@ -88,12 +129,12 @@
         /// <param name="value">The value to set the property to</param>
         /// <param name="type">The transaction name</param>
         /// <param name="originalValue">The original value of the property</param>
-        protected void SetValue(string value, string type, string originalValue)
+        protected void SetValue<TV>(TV value, string type, TV originalValue)
         {
             Transaction transaction;
             if (this.pendingTransactions.TryGetValue(type, out transaction))
             {
-                if (value == originalValue)
+                if (value.Equals(originalValue))
                 {
                     this.pendingTransactions.Remove(type);
                     return;
@@ -103,7 +144,7 @@
             }
             else
             {
-                if (value != originalValue)
+                if (!value.Equals(originalValue))
                 {
                     transaction = new Transaction { Type = type, Value = value };
                     this.pendingTransactions.Add(transaction.Type, transaction);

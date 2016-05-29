@@ -8,6 +8,8 @@
 
     using Newtonsoft.Json;
 
+    using Stwalkerster.ConduitClient.Applications.Projects;
+
     public class ConduitClient
     {
         private readonly string url;
@@ -18,8 +20,17 @@
         {
             this.url = url;
             this.token = token;
+
+            var tmpIcon = ProjectIcon.Project;
+            var tmpColor = ProjectColor.Red;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public dynamic CallMethod(string method, IDictionary<string, dynamic> parameters)
         {
             parameters.Add("__conduit__", new { this.token });
@@ -46,7 +57,14 @@
             var responseStream = new StreamReader(responseRawStream);
             var responseData = responseStream.ReadToEnd();
 
-            return JsonConvert.DeserializeObject(responseData);
+            dynamic result = JsonConvert.DeserializeObject(responseData);
+
+            if (result.error_code != null)
+            {
+                throw new ConduitException((string)result.error_code, (string)result.error_info);
+            }
+
+            return result;
         }
     }
 }

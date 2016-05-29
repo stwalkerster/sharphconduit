@@ -55,9 +55,17 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ApplicationEditorApi.cs" />
-    <Compile Include="Applications\Maniphest.cs" />
+    <Compile Include="ApplicationEditorSearchConstraint.cs" />
+    <Compile Include="Applications\Maniphest\Maniphest.cs" />
+    <Compile Include="Applications\Maniphest\ManiphestSearchConstraintFactory.cs" />
+    <Compile Include="Applications\Projects\ProjectIcon.cs" />
+    <Compile Include="Applications\Projects\ProjectsSearchConstraintFactory.cs" />
+    <Compile Include="ConduitLookupBase.cs" />
+    <Compile Include="Applications\Projects\Project.cs" />
+    <Compile Include="Applications\Projects\ProjectColor.cs" />
+    <Compile Include="Applications\Projects\Projects.cs" />
     <Compile Include="ConduitClient.cs" />
-    <Compile Include="Applications\ManiphestTask.cs" />
+    <Compile Include="Applications\Maniphest\ManiphestTask.cs" />
     <Compile Include="ConduitException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transaction.cs" />

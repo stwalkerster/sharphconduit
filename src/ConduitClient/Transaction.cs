@@ -9,5 +9,8 @@
 
         [JsonProperty("value")]
         public object Value { get; set; }
+
+        [JsonIgnore]
+        public bool Invalided { get; set; }
     }
 }

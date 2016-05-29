@@ -1,7 +1,11 @@
 ﻿namespace Stwalkerster.ConduitTestApplication
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Stwalkerster.ConduitClient;
-    using Stwalkerster.ConduitClient.Applications;
+    using Stwalkerster.ConduitClient.Applications.Maniphest;
+    using Stwalkerster.ConduitClient.Applications.Projects;
 
     class Program
     {
@@ -16,15 +20,36 @@
 
             var client = new ConduitClient(phabUrl, token);
 
+            var project = new Projects(client);
             var maniphest = new Maniphest(client);
-            var task = new ManiphestTask { Title = "Test task", Description = "woo test!" };
-            
-            maniphest.Edit(task);
 
-            task.Title = "EDITED test task!";
-            task.AddComment("Woo! comment!");
+            var maniphestTask = maniphest.Info(4);
 
-            maniphest.Edit(task);
+            //maniphestTask.Points = 4;
+            //maniphestTask.Status = "open";
+            //maniphestTask.Priority = "High";
+
+            //maniphest.Edit(maniphestTask);
+
+            //var result = client.CallMethod(
+            //    "maniphest.edit",
+            //    new Dictionary<string, dynamic>
+            //        {
+            //            { "objectIdentifier", 4 },
+            //            {
+            //                "transactions",
+            //                new List<Transaction>
+            //                    {
+            //                        new Transaction
+            //                            {
+            //                                Type = "priority",
+            //                                Value = "80"
+            //                            }
+            //                    }
+            //            }
+            //        });
+
+            var list = maniphest.Search().ToList();
         }
     }
 }
