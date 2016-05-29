@@ -10,7 +10,8 @@
     /// TODO: space
     /// TODO: points
     /// TODO: view + edit
-    /// 
+    /// TODO: projects (add, remove, set)
+    /// TODO: subscribers (add, remove, set)
     /// </remarks>
     public class ManiphestTask : TransactionalObject
     {
@@ -21,20 +22,24 @@
         private readonly string status;
 
         private readonly string parent;
+
         private readonly string priority;
 
         private readonly string owner;
 
-        public ManiphestTask(string title)
+        public ManiphestTask()
         {
-            this.Title = title;
         }
 
-        internal ManiphestTask(string title, string description, string status, string parent)
+        internal ManiphestTask(string phid, string title, string description, string status, string parent,string priority, string owner)
         {
+            this.ObjectPHID = phid;
             this.title = title;
             this.description = description;
             this.status = status;
+            this.parent = parent;
+            this.priority = priority;
+            this.owner = owner;
         }
 
         public string Title
@@ -120,12 +125,7 @@
                 this.SetValue(value, "owner", this.owner);
             }
         }
-
-        public override object GetIdentifier()
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public void AddComment(string text)
         {
             this.PendingTransactions.Add(new Guid().ToString(), new Transaction { Type = "comment", Value = text });

@@ -14,11 +14,9 @@
             }
         }
 
-        /// <summary>
-        /// Gets the identifier of the object to be used when editing an existing object. This must be overridden in subclasses. 
-        /// </summary>
-        /// <returns></returns>
-        public abstract object GetIdentifier();
+        public object Identifier { get; internal set; }
+
+        public string ObjectPHID { get; internal set; }
 
         internal void ClearTransactions()
         {

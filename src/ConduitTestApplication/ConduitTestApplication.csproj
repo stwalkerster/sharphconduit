@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ConduitTestApplication.Program</StartupObject>
+    <StartupObject>Stwalkerster.ConduitTestApplication.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

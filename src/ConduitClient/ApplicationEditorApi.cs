@@ -22,11 +22,17 @@
                 string.Format("{0}.edit", this.GetApplicationName()),
                 new Dictionary<string, dynamic>
                     {
-                        { "objectIdentifier", transactionalObject.GetIdentifier() },
+                        { "objectIdentifier", transactionalObject.ObjectPHID },
                         { "transactions", transactionalObject.GetTransactions() }
                     });
 
-            Debugger.Break();
+            if (result.error_code != null)
+            {
+                throw new ConduitException(result.error_code, result.error_info);
+            }
+
+            transactionalObject.ObjectPHID = result.result.@object.phid;
+            transactionalObject.Identifier = result.result.@object.id;
         }
     }
 }

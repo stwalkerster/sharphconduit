@@ -6,6 +6,8 @@
     using System.Net;
     using System.Web;
 
+    using Newtonsoft.Json;
+
     public class ConduitClient
     {
         private readonly string url;
