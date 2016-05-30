@@ -1,8 +1,5 @@
 ﻿namespace Stwalkerster.ConduitClient.Applications.Projects
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     public class ProjectColor : ConduitLookupBase<ProjectColor>
     {
         public static ProjectColor Red = new ProjectColor("red");

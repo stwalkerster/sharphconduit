@@ -4,6 +4,7 @@
     using System.Linq;
 
     using Stwalkerster.ConduitClient;
+    using Stwalkerster.ConduitClient.Applications;
     using Stwalkerster.ConduitClient.Applications.Maniphest;
     using Stwalkerster.ConduitClient.Applications.Projects;
 
@@ -19,37 +20,29 @@
             // --------------------------------------------------------------------//
 
             var client = new ConduitClient(phabUrl, token);
-
-            var project = new Projects(client);
+            
             var maniphest = new Maniphest(client);
 
-            var maniphestTask = maniphest.Info(4);
+            var maniphestTask = maniphest.Info(7);
+            //var maniphestTask = new ManiphestTask();
 
+            var phidLookup = new PHIDLookup(client);
+            var phidForObject = phidLookup.GetPHIDForObject("S2", "#work_stuff");
+
+            //maniphestTask.Title = "Test private task";
+            //maniphestTask.Owner = "stwalkerster";
+            //maniphestTask.AddProjects(new List<string> { "testing", "work_stuff"});
             //maniphestTask.Points = 4;
-            //maniphestTask.Status = "open";
-            //maniphestTask.Priority = "High";
+            //maniphestTask.Description = "New task for testing all sorts of crazy things with";
+            //maniphestTask.Space = "PHID-SPCE-fqtvdv5vnsv6yhnzvyb4";
 
-            //maniphest.Edit(maniphestTask);
+            //maniphestTask.ViewPolicy = "work_stuff";
+            maniphestTask.EditPolicy = "#work_stuff";
 
-            //var result = client.CallMethod(
-            //    "maniphest.edit",
-            //    new Dictionary<string, dynamic>
-            //        {
-            //            { "objectIdentifier", 4 },
-            //            {
-            //                "transactions",
-            //                new List<Transaction>
-            //                    {
-            //                        new Transaction
-            //                            {
-            //                                Type = "priority",
-            //                                Value = "80"
-            //                            }
-            //                    }
-            //            }
-            //        });
+            maniphest.Edit(maniphestTask);
 
-            var list = maniphest.Search().ToList();
+
+
         }
     }
 }

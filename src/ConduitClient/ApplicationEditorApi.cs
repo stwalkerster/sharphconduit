@@ -1,7 +1,7 @@
 ﻿namespace Stwalkerster.ConduitClient
 {
-    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public abstract class ApplicationEditorApi<T, TId> where T : TransactionalObject<TId>
     {
@@ -9,10 +9,10 @@
 
         protected abstract T NewFromSearch(dynamic data);
 
-        public IEnumerable<T> Search(string baseQuery = null, List<ApplicationEditorSearchConstraint> constraints = null)
+        public IEnumerable<T> Search(string baseQuery = null, IEnumerable<ApplicationEditorSearchConstraint> constraints = null, IEnumerable<string> attachments = null)
         {
             var query = new Dictionary<string, dynamic>();
-
+            
             if (baseQuery != null)
             {
                 query.Add("queryKey", baseQuery);
@@ -26,6 +26,11 @@
                 {
                     constraintDictionary.Add(constraint.Type, constraint.Value);
                 }
+            }
+
+            if (attachments != null)
+            {
+                query.Add("attachments", attachments.ToDictionary(x => x, x => true));
             }
 
             // TODO: ordering

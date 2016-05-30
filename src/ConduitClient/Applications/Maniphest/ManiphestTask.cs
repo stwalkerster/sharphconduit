@@ -10,14 +10,15 @@
     /// <remarks>
     ///     TODO: parent
     ///     TODO: column
-    ///     TODO: points
-    ///     TODO: view + edit
+    ///     TODO: view + edit policies
     /// </remarks>
     public class ManiphestTask : TransactionalObject<int>
     {
         private readonly string author;
 
         private readonly string description;
+
+        private readonly string editPolicy;
 
         private readonly string owner;
 
@@ -36,6 +37,8 @@
         private readonly List<string> subscriberPHIDs;
 
         private readonly string title;
+
+        private readonly string viewPolicy;
 
         public ManiphestTask()
         {
@@ -56,6 +59,8 @@
             string author,
             string space,
             int? points,
+            string viewPolicy,
+            string editPolicy,
             int dateCreated,
             int dateModified,
             IEnumerable<string> projectPHIDs,
@@ -75,6 +80,8 @@
             this.author = author;
             this.space = space;
             this.points = points;
+            this.viewPolicy = viewPolicy;
+            this.editPolicy = editPolicy;
 
             this.projectPHIDs = projectPHIDs.ToList();
             this.subscriberPHIDs = subscriberPHIDs.ToList();
@@ -107,9 +114,8 @@
         }
 
         /// <summary>
-        /// HEY! You should SET this to a string value.
-        /// 
-        /// This means we read this as "High", but have to pass in "80" to set it to this. This seems silly.
+        ///     HEY! You should SET this to a string value.
+        ///     This means we read this as "High", but have to pass in "80" to set it to this. This seems silly.
         /// </summary>
         public string Priority
         {
@@ -134,6 +140,32 @@
             set
             {
                 this.SetValue(value, "status", this.status);
+            }
+        }
+
+        public string ViewPolicy
+        {
+            get
+            {
+                return this.GetValue("view", this.viewPolicy);
+            }
+
+            set
+            {
+                this.SetValue(value, "view", this.viewPolicy);
+            }
+        }
+
+        public string EditPolicy
+        {
+            get
+            {
+                return this.GetValue("edit", this.editPolicy);
+            }
+
+            set
+            {
+                this.SetValue(value, "edit", this.editPolicy);
             }
         }
 

@@ -33,8 +33,11 @@
         /// <returns></returns>
         public dynamic CallMethod(string method, IDictionary<string, dynamic> parameters)
         {
-            parameters.Add("__conduit__", new { this.token });
-            var json = JsonConvert.SerializeObject(parameters);
+            // clone the dictionary
+            var parameterDictionary = new Dictionary<string,dynamic>(parameters);
+
+            parameterDictionary.Add("__conduit__", new { this.token });
+            var json = JsonConvert.SerializeObject(parameterDictionary);
             
             var webRequest = (HttpWebRequest)WebRequest.Create(string.Format("{0}api/{1}", this.url, method));
             webRequest.Method = "POST";

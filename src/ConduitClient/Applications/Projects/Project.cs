@@ -1,5 +1,8 @@
 ﻿namespace Stwalkerster.ConduitClient.Applications.Projects
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     ///     TODO: members
     ///     TODO: slugs
@@ -11,6 +14,10 @@
         private readonly string color;
 
         private readonly string description;
+
+        private readonly List<string> memberPHIDs;
+
+        private readonly List<string> watcherPHIDs;
 
         private readonly string icon;
 
@@ -32,13 +39,17 @@
             string editPolicy,
             string joinPolicy,
             int dateCreated,
-            int dateModified)
+            int dateModified,
+            IEnumerable<string> memberPHIDs,
+            IEnumerable<string> watcherPHIDs)
             : base(dateCreated, dateModified)
         {
             this.color = color;
             this.icon = icon;
             this.name = name;
             this.description = description;
+            this.memberPHIDs = memberPHIDs.ToList();
+            this.watcherPHIDs = watcherPHIDs.ToList();
 
             this.ObjectPHID = phid;
             this.Identifier = identifier;
@@ -90,6 +101,26 @@
             set
             {
                 this.SetValue(value.ApiName, "color", this.color);
+            }
+        }
+
+        public List<string> MemberPHIDs
+        {
+            get
+            {
+                var enumerable = new List<string>(this.memberPHIDs);
+                // TODO: make this reflect the pending transactions
+                return enumerable;
+            }
+        }
+
+        public List<string> WatcherPHIDs
+        {
+            get
+            { 
+                var enumerable = new List<string>(this.watcherPHIDs);
+                // TODO: make this reflect the pending transactions
+                return enumerable;
             }
         }
     }

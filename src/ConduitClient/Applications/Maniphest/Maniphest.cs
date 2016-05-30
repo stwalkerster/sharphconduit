@@ -1,6 +1,7 @@
 ﻿namespace Stwalkerster.ConduitClient.Applications.Maniphest
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Newtonsoft.Json.Linq;
 
@@ -13,7 +14,45 @@
 
         protected override ManiphestTask NewFromSearch(dynamic data)
         {
-            throw new System.NotImplementedException();
+            var subscribers= new List<string>();
+            var projects = new List<string>();
+
+            if (data.attachments != null)
+            {
+                if (data.attachments.projects != null)
+                {
+                    var jArray = (JArray)data.attachments.projects.projectPHIDs;
+                    projects = new List<string>(jArray.Values<string>());
+                }
+
+                if (data.attachments.subscribers != null)
+                {
+                    var jArray = (JArray)data.attachments.subscribers.subscriberPHIDs;
+                    subscribers = new List<string>(jArray.Values<string>());
+                }
+            }
+
+            var task = new ManiphestTask(
+                phid: (string)data.phid,
+                identifier: (int)data.id,
+                uri: null,
+                title: (string)data.fields.name,
+                description: null,
+                status: (string)data.fields.status.value,
+                parent: null,
+                priority: (string)data.fields.priority.value,
+                owner: (string)data.fields.ownerPHID,
+                author: (string)data.fields.authorPHID,
+                space: (string)data.fields.spacePHID,
+                points: (int?)data.fields.points,
+                viewPolicy:(string)data.fields.policy.view,
+                editPolicy: (string)data.fields.policy.edit,
+                dateCreated: (int)data.fields.dateCreated,
+                dateModified: (int)data.fields.dateModified,
+                projectPHIDs: projects, 
+                subscriberPHIDs: subscribers);
+
+            return task;
         }
 
         protected override string GetApplicationName()
@@ -23,62 +62,7 @@
 
         public ManiphestTask Info(int taskId)
         {
-            dynamic result = this.ConduitClient.CallMethod(
-                "maniphest.info",
-                new Dictionary<string, dynamic> { { "task_id", taskId } });
-
-            var rawtask = result.result;
-
-            string phid = rawtask.phid;
-            int identifier = (int)rawtask.id;
-            string uri = rawtask.uri;
-            string title = rawtask.title;
-            string description = rawtask.description;
-            string status = rawtask.status;
-            string priority = rawtask.priority;
-            string owner = rawtask.ownerPHID;
-            string author = rawtask.authorPHID;
-            string space = rawtask.space;
-            int? points = rawtask.points;
-            int dateCreated = rawtask.dateCreated;
-            int dateModified = rawtask.dateModified;
-
-            var rawProjectPHIDs = (JArray)rawtask.projectPHIDs;
-            List<string> projectPHIDs = rawProjectPHIDs != null ? new List<string>(rawProjectPHIDs.Values<string>()) : new List<string>();
-
-            var rawSubscriberPHIDs = (JArray)rawtask.subscriberPHIDs;
-            List<string> subscriberPHIDs = rawSubscriberPHIDs != null ? new List<string>(rawSubscriberPHIDs.Values<string>()) : new List<string>();
-
-            var maniphestTask = new ManiphestTask(
-                phid: phid,
-                identifier: identifier,
-                uri: uri,
-                title: title,
-                description: description,
-                status: status,
-                parent: null,
-                priority: priority,
-                owner: owner,
-                author: author,
-                space: space,
-                points: points,
-                dateCreated: dateCreated,
-                dateModified: dateModified,
-                projectPHIDs: projectPHIDs,
-                subscriberPHIDs: subscriberPHIDs
-                );
-
-            return maniphestTask;
-
-            //// {
-            ////   "ccPHIDs": [
-            ////     "PHID-USER-ure4heq4jqxak7dlmxqg"
-            ////   ],
-            ////   "projectPHIDs": [],
-            ////   "auxiliary": [],
-            ////   "objectName": "T2",
-            ////   "dependsOnTaskPHIDs": []
-            //// }
+            return this.Search(null, new[] { new ApplicationEditorSearchConstraint("ids", new[] { taskId }) }).FirstOrDefault();
         }
     }
 }
