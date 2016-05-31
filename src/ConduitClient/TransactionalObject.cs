@@ -12,9 +12,9 @@
     {
         private readonly Dictionary<string, Transaction> pendingTransactions = new Dictionary<string, Transaction>();
 
-        private DateTime dateCreated;
+        private readonly DateTime dateCreated;
 
-        private DateTime dateModified;
+        private readonly DateTime dateModified;
 
         protected TransactionalObject()
         {
@@ -73,7 +73,7 @@
         /// Gets the current value of a property
         /// </summary>
         /// <para>
-        /// This method should be combined with <see cref="SetValue"/> for proper behaviour.
+        /// This method should be combined with <see cref="SetValue{TV}"/> for proper behaviour.
         /// All property access for properties which have been set with SetValue(...) should be accessed
         /// via this method, or the properties will appear unedited.
         /// </para>
@@ -116,7 +116,7 @@
         /// <para>
         /// This method is intended to be called from property setters to add an ApplicationEditor 
         /// transaction to the list of transactions to be applied to the object on save. For correct
-        /// behaviour of the object, this should be combined with the <see cref="GetValue"/> method.
+        /// behaviour of the object, this should be combined with the <see cref="GetValue{TV}"/> method.
         /// Note that transactional properties will never edit the original value of the property under
         /// user control.
         /// </para>
@@ -134,7 +134,7 @@
             Transaction transaction;
             if (this.pendingTransactions.TryGetValue(type, out transaction))
             {
-                if (value.Equals(originalValue))
+                if (Equals(value, originalValue))
                 {
                     this.pendingTransactions.Remove(type);
                     return;
@@ -144,7 +144,7 @@
             }
             else
             {
-                if (!value.Equals(originalValue))
+                if (!Equals(value, originalValue))
                 {
                     transaction = new Transaction { Type = type, Value = value };
                     this.pendingTransactions.Add(transaction.Type, transaction);

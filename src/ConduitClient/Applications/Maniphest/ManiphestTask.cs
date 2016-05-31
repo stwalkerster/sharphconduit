@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
 
     /// <summary>
     ///     Represents a task in Maniphest
@@ -257,12 +259,23 @@
 
         public void AddComment(string text)
         {
-            this.PendingTransactions.Add(new Guid().ToString(), new Transaction { Type = "comment", Value = text });
+            string hash = BitConverter.ToString(SHA1.Create("SHA1").ComputeHash(Encoding.UTF8.GetBytes(text)));
+            this.PendingTransactions.Add(hash, new Transaction { Type = "comment", Value = text });
+        }
+
+        public void AddProjects(string project)
+        {
+            this.AddProjects(new[] { project });
         }
 
         public void AddProjects(IEnumerable<string> projects)
         {
             this.PendingTransactions.Add("projects.add", new Transaction { Type = "projects.add", Value = projects });
+        }
+        
+        public void RemoveProjects(string project)
+        {
+            this.RemoveProjects(new[] { project });
         }
 
         public void RemoveProjects(IEnumerable<string> projects)
