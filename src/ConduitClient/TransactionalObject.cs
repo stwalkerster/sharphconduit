@@ -151,5 +151,10 @@
                 }
             }
         }
+
+        public void AddTransaction(string key, Transaction transaction)
+        {
+            this.pendingTransactions.Add(key, transaction);
+        }
     }
 }

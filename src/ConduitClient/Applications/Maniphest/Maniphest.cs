@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     using Newtonsoft.Json.Linq;
 
@@ -32,6 +33,12 @@
                 }
             }
 
+            var customFields =
+                ((JObject)data.fields).AsJEnumerable()
+                    .ToList()
+                    .Where(x => ((JProperty)x).Name.StartsWith("custom."))
+                    .ToDictionary(x => ((JProperty)x).Name, y => (dynamic)((JProperty)y).Value);
+
             var task = new ManiphestTask(
                 phid: (string)data.phid,
                 identifier: (int)data.id,
@@ -45,12 +52,13 @@
                 author: (string)data.fields.authorPHID,
                 space: (string)data.fields.spacePHID,
                 points: (int?)data.fields.points,
-                viewPolicy:(string)data.fields.policy.view,
+                viewPolicy: (string)data.fields.policy.view,
                 editPolicy: (string)data.fields.policy.edit,
                 dateCreated: (int)data.fields.dateCreated,
                 dateModified: (int)data.fields.dateModified,
                 projectPHIDs: projects, 
-                subscriberPHIDs: subscribers);
+                subscriberPHIDs: subscribers,
+                customFields: customFields);
 
             return task;
         }

@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
@@ -14,6 +16,7 @@
     ///     TODO: column
     ///     TODO: view + edit policies
     /// </remarks>
+    [DebuggerDisplay("T{Identifier} {title}")]
     public class ManiphestTask : TransactionalObject<int>
     {
         private readonly string author;
@@ -42,10 +45,14 @@
 
         private readonly string viewPolicy;
 
+        private readonly IDictionary<string, dynamic> customFields;
+
         public ManiphestTask()
         {
             this.projectPHIDs = new List<string>();
             this.subscriberPHIDs = new List<string>();
+
+            this.customFields = new Dictionary<string, dynamic>();
         }
 
         internal ManiphestTask(
@@ -66,7 +73,8 @@
             int dateCreated,
             int dateModified,
             IEnumerable<string> projectPHIDs,
-            IEnumerable<string> subscriberPHIDs)
+            IEnumerable<string> subscriberPHIDs,
+            IDictionary<string,dynamic> customFields)
             : base(dateCreated, dateModified)
         {
             this.ObjectPHID = phid;
@@ -84,6 +92,8 @@
             this.points = points;
             this.viewPolicy = viewPolicy;
             this.editPolicy = editPolicy;
+
+            this.customFields = customFields;
 
             this.projectPHIDs = projectPHIDs.ToList();
             this.subscriberPHIDs = subscriberPHIDs.ToList();
@@ -309,6 +319,14 @@
             this.PendingTransactions.Add(
                 "subscribers.set",
                 new Transaction { Type = "subscribers.set", Value = subscribers });
+        }
+
+        public IDictionary<string, dynamic> CustomFields
+        {
+            get
+            {
+                return new ReadOnlyDictionary<string, dynamic>(this.customFields);
+            }
         }
     }
 }
