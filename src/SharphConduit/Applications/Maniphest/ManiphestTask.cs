@@ -21,11 +21,12 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+
+    using Stwalkerster.SharphConduit.Utility;
 
     /// <summary>
     ///     Represents a task in Maniphest
@@ -130,7 +131,7 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
         {
             get
             {
-                return new ReadOnlyDictionary<string, dynamic>(this.customFields);
+                return new Dictionary<string, dynamic>(this.customFields);
             }
         }
 
@@ -296,8 +297,11 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
 
         public void AddComment(string text)
         {
-            string hash = BitConverter.ToString(SHA1.Create("SHA1").ComputeHash(Encoding.UTF8.GetBytes(text)));
-            this.PendingTransactions.Add(hash, new Transaction { Type = "comment", Value = text });
+            var key = BitConverter.GetBytes(RandomProvider.Next());
+            var input = Encoding.UTF8.GetBytes(text);
+            var hash = new HMACSHA1(key).ComputeHash(input);
+            var hashValue = BitConverter.ToString(hash);
+            this.PendingTransactions.Add(hashValue, new Transaction { Type = "comment", Value = text });
         }
 
         public void AddProjects(string project)

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Simon Walker">
+// <copyright file="RandomProvider.cs" company="Simon Walker">
 //   Copyright (c) 2016 Simon Walker
 //   -
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -16,10 +16,23 @@
 //   IN THE SOFTWARE.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-using System.Reflection;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("SharphConduit")]
-[assembly: AssemblyDescription("A C# library for Phabricator's Conduit interface")]
+namespace Stwalkerster.SharphConduit.Utility
+{
+    using System;
+
+    internal static class RandomProvider
+    {
+        private static Random r;
+
+        static RandomProvider()
+        {
+            r = new Random();
+        }
+
+        public static int Next()
+        {
+            return r.Next();
+        }
+    }
+}

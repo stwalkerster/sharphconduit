@@ -56,7 +56,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharphConduit\SharphConduit.csproj">
+    <ProjectReference Include="..\SharphConduitLegacy\SharphConduit.csproj">
       <Project>{D5D8EE2F-3A9B-420C-908A-BDB309418000}</Project>
       <Name>SharphConduit</Name>
     </ProjectReference>

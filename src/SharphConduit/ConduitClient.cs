@@ -23,9 +23,10 @@ namespace Stwalkerster.SharphConduit
     using System.Collections.Generic;
     using System.IO;
     using System.Net;
-    using System.Web;
 
     using Newtonsoft.Json;
+
+    using PCLWebUtility;
 
     using Stwalkerster.SharphConduit.Applications.Projects;
 
@@ -59,15 +60,17 @@ namespace Stwalkerster.SharphConduit
             var json = JsonConvert.SerializeObject(parameterDictionary);
 
             var webRequest = (HttpWebRequest)WebRequest.Create(string.Format("{0}api/{1}", this.url, method));
-            webRequest.Method = "POST";
-            string postData = string.Format("params={0}&format=json&__conduit__=1", HttpUtility.UrlEncode(json));
+            IAsyncResult getRequestHandle = webRequest.BeginGetRequestStream(x => { }, new object());
 
-            var requestStream = new StreamWriter(webRequest.GetRequestStream());
+            webRequest.Method = "POST";
+            string postData = string.Format("params={0}&format=json&__conduit__=1", WebUtility.UrlEncode(json));
+            
+            var requestStream = new StreamWriter(webRequest.EndGetRequestStream(getRequestHandle));
             requestStream.Write(postData);
             requestStream.Flush();
-            requestStream.Close();
 
-            var response = (HttpWebResponse)webRequest.GetResponse();
+            var getResponseHandle = webRequest.BeginGetResponse(x => { }, new object());
+            var response = (HttpWebResponse)webRequest.EndGetResponse(getResponseHandle);
 
             var responseRawStream = response.GetResponseStream();
 
