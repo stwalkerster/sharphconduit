@@ -1,4 +1,23 @@
-﻿namespace Stwalkerster.ConduitClient.Applications.Maniphest
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ManiphestTask.cs" company="Simon Walker">
+//   Copyright (c) 2016 Simon Walker
+//   -
+//   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+//   documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+//   the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+//   to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above 
+//   copyright notice and this permission notice shall be included in all copies or substantial portions of the 
+//   Software.
+//   -
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+//   THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+//   CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+//   IN THE SOFTWARE.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Stwalkerster.SharphConduit.Applications.Maniphest
 {
     using System;
     using System.Collections.Generic;
@@ -20,6 +39,8 @@
     public class ManiphestTask : TransactionalObject<int>
     {
         private readonly string author;
+
+        private readonly IDictionary<string, dynamic> customFields;
 
         private readonly string description;
 
@@ -44,8 +65,6 @@
         private readonly string title;
 
         private readonly string viewPolicy;
-
-        private readonly IDictionary<string, dynamic> customFields;
 
         public ManiphestTask()
         {
@@ -74,7 +93,7 @@
             int dateModified,
             IEnumerable<string> projectPHIDs,
             IEnumerable<string> subscriberPHIDs,
-            IDictionary<string,dynamic> customFields)
+            IDictionary<string, dynamic> customFields)
             : base(dateCreated, dateModified)
         {
             this.ObjectPHID = phid;
@@ -99,16 +118,19 @@
             this.subscriberPHIDs = subscriberPHIDs.ToList();
         }
 
-        public string Title
+        public string Author
         {
             get
             {
-                return this.GetValue("title", this.title);
+                return this.author;
             }
+        }
 
-            set
+        public IDictionary<string, dynamic> CustomFields
+        {
+            get
             {
-                this.SetValue(value, "title", this.title);
+                return new ReadOnlyDictionary<string, dynamic>(this.customFields);
             }
         }
 
@@ -122,6 +144,64 @@
             set
             {
                 this.SetValue(value, "description", this.description);
+            }
+        }
+
+        public string EditPolicy
+        {
+            get
+            {
+                return this.GetValue("edit", this.editPolicy);
+            }
+
+            set
+            {
+                this.SetValue(value, "edit", this.editPolicy);
+            }
+        }
+
+        /// <summary>
+        ///     TODO: PHID/String/null
+        /// </summary>
+        public string Owner
+        {
+            get
+            {
+                return this.GetValue("owner", this.owner);
+            }
+
+            set
+            {
+                this.SetValue(value, "owner", this.owner);
+            }
+        }
+
+        /// <summary>
+        ///     TODO: PHID
+        /// </summary>
+        public string Parent
+        {
+            get
+            {
+                return this.GetValue("parent", this.parent);
+            }
+
+            set
+            {
+                this.SetValue(value, "parent", this.parent);
+            }
+        }
+
+        public int? Points
+        {
+            get
+            {
+                return this.GetValue("points", this.points);
+            }
+
+            set
+            {
+                this.SetValue(value, "points", this.points);
             }
         }
 
@@ -142,55 +222,13 @@
             }
         }
 
-        public string Status
+        public IEnumerable<string> Projects
         {
             get
             {
-                return this.GetValue("status", this.status);
-            }
-
-            set
-            {
-                this.SetValue(value, "status", this.status);
-            }
-        }
-
-        public string ViewPolicy
-        {
-            get
-            {
-                return this.GetValue("view", this.viewPolicy);
-            }
-
-            set
-            {
-                this.SetValue(value, "view", this.viewPolicy);
-            }
-        }
-
-        public string EditPolicy
-        {
-            get
-            {
-                return this.GetValue("edit", this.editPolicy);
-            }
-
-            set
-            {
-                this.SetValue(value, "edit", this.editPolicy);
-            }
-        }
-
-        public int? Points
-        {
-            get
-            {
-                return this.GetValue("points", this.points);
-            }
-
-            set
-            {
-                this.SetValue(value, "points", this.points);
+                var enumerable = new List<string>(this.projectPHIDs);
+                // TODO: make this reflect the pending transactions
+                return enumerable;
             }
         }
 
@@ -207,53 +245,16 @@
             }
         }
 
-        /// <summary>
-        ///     TODO: PHID
-        /// </summary>
-        public string Parent
+        public string Status
         {
             get
             {
-                return this.GetValue("parent", this.parent);
+                return this.GetValue("status", this.status);
             }
 
             set
             {
-                this.SetValue(value, "parent", this.parent);
-            }
-        }
-
-        /// <summary>
-        ///     TODO: PHID/String/null
-        /// </summary>
-        public string Owner
-        {
-            get
-            {
-                return this.GetValue("owner", this.owner);
-            }
-
-            set
-            {
-                this.SetValue(value, "owner", this.owner);
-            }
-        }
-
-        public string Author
-        {
-            get
-            {
-                return this.author;
-            }
-        }
-
-        public IEnumerable<string> Projects
-        {
-            get
-            {
-                var enumerable = new List<string>(this.projectPHIDs);
-                // TODO: make this reflect the pending transactions
-                return enumerable;
+                this.SetValue(value, "status", this.status);
             }
         }
 
@@ -264,6 +265,32 @@
                 var enumerable = new List<string>(this.subscriberPHIDs);
                 // TODO: make this reflect the pending transactions
                 return enumerable;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.GetValue("title", this.title);
+            }
+
+            set
+            {
+                this.SetValue(value, "title", this.title);
+            }
+        }
+
+        public string ViewPolicy
+        {
+            get
+            {
+                return this.GetValue("view", this.viewPolicy);
+            }
+
+            set
+            {
+                this.SetValue(value, "view", this.viewPolicy);
             }
         }
 
@@ -282,7 +309,14 @@
         {
             this.PendingTransactions.Add("projects.add", new Transaction { Type = "projects.add", Value = projects });
         }
-        
+
+        public void AddSubscribers(IEnumerable<string> subscribers)
+        {
+            this.PendingTransactions.Add(
+                "subscribers.add",
+                new Transaction { Type = "subscribers.add", Value = subscribers });
+        }
+
         public void RemoveProjects(string project)
         {
             this.RemoveProjects(new[] { project });
@@ -295,18 +329,6 @@
                 new Transaction { Type = "projects.remove", Value = projects });
         }
 
-        public void SetProjects(IEnumerable<string> projects)
-        {
-            this.PendingTransactions.Add("projects.set", new Transaction { Type = "projects.set", Value = projects });
-        }
-
-        public void AddSubscribers(IEnumerable<string> subscribers)
-        {
-            this.PendingTransactions.Add(
-                "subscribers.add",
-                new Transaction { Type = "subscribers.add", Value = subscribers });
-        }
-
         public void RemoveSubscribers(IEnumerable<string> subscribers)
         {
             this.PendingTransactions.Add(
@@ -314,19 +336,16 @@
                 new Transaction { Type = "subscribers.remove", Value = subscribers });
         }
 
+        public void SetProjects(IEnumerable<string> projects)
+        {
+            this.PendingTransactions.Add("projects.set", new Transaction { Type = "projects.set", Value = projects });
+        }
+
         public void SetSubscribers(IEnumerable<string> subscribers)
         {
             this.PendingTransactions.Add(
                 "subscribers.set",
                 new Transaction { Type = "subscribers.set", Value = subscribers });
-        }
-
-        public IDictionary<string, dynamic> CustomFields
-        {
-            get
-            {
-                return new ReadOnlyDictionary<string, dynamic>(this.customFields);
-            }
         }
     }
 }

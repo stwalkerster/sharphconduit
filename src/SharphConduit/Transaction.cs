@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Simon Walker">
+// <copyright file="Transaction.cs" company="Simon Walker">
 //   Copyright (c) 2016 Simon Walker
 //   -
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -16,19 +16,31 @@
 //   IN THE SOFTWARE.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-using System.Reflection;
-using System.Runtime.InteropServices;
+namespace Stwalkerster.SharphConduit
+{
+    using Newtonsoft.Json;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("ConduitTestApplication")]
-[assembly: AssemblyDescription("")]
+    /// <summary>
+    /// The transaction.
+    /// </summary>
+    public class Transaction
+    {
+        /// <summary>
+        /// Gets or sets a value indicating whether invalided.
+        /// </summary>
+        [JsonIgnore]
+        public bool Invalided { get; set; }
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
+        /// <summary>
+        /// Gets or sets the type.
+        /// </summary>
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("883d70e4-ec34-4829-b75e-b3b68ee131a3")]
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        [JsonProperty("value")]
+        public object Value { get; set; }
+    }
+}

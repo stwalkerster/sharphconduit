@@ -56,9 +56,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConduitClient\ConduitClient.csproj">
+    <ProjectReference Include="..\SharphConduit\SharphConduit.csproj">
       <Project>{D5D8EE2F-3A9B-420C-908A-BDB309418000}</Project>
-      <Name>ConduitClient</Name>
+      <Name>SharphConduit</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

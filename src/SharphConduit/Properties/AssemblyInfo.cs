@@ -22,8 +22,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConduitTestApplication")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("SharphConduit")]
+[assembly: AssemblyDescription("A C# library for Phabricator's Conduit interface")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -31,4 +31,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("883d70e4-ec34-4829-b75e-b3b68ee131a3")]
+[assembly: Guid("d5d8ee2f-3a9b-420c-908a-bdb309418000")]

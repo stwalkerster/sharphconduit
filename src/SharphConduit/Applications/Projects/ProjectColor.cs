@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Simon Walker">
+// <copyright file="ProjectColor.cs" company="Simon Walker">
 //   Copyright (c) 2016 Simon Walker
 //   -
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -16,19 +16,39 @@
 //   IN THE SOFTWARE.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-using System.Reflection;
-using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("ConduitTestApplication")]
-[assembly: AssemblyDescription("")]
+namespace Stwalkerster.SharphConduit.Applications.Projects
+{
+    public class ProjectColor : ConduitLookupBase<ProjectColor>
+    {
+        public static ProjectColor Blue = new ProjectColor("blue");
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
+        public static ProjectColor Checkered = new ProjectColor("checkered");
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("883d70e4-ec34-4829-b75e-b3b68ee131a3")]
+        public static ProjectColor Green = new ProjectColor("green");
+
+        public static ProjectColor Grey = new ProjectColor("grey");
+
+        public static ProjectColor Indigo = new ProjectColor("indigo");
+
+        public static ProjectColor Orange = new ProjectColor("orange");
+
+        public static ProjectColor Pink = new ProjectColor("pink");
+
+        public static ProjectColor Red = new ProjectColor("red");
+
+        public static ProjectColor Violet = new ProjectColor("violet");
+
+        public static ProjectColor Yellow = new ProjectColor("yellow");
+
+        static ProjectColor()
+        {
+            SetupLookupMap(new[] { Red, Orange, Yellow, Green, Blue, Indigo, Violet, Pink, Grey, Checkered });
+        }
+
+        private ProjectColor(string apiName)
+            : base(apiName)
+        {
+        }
+    }
+}

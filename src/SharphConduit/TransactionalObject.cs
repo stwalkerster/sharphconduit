@@ -1,4 +1,23 @@
-﻿namespace Stwalkerster.ConduitClient
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TransactionalObject.cs" company="Simon Walker">
+//   Copyright (c) 2016 Simon Walker
+//   -
+//   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+//   documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+//   the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+//   to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above 
+//   copyright notice and this permission notice shall be included in all copies or substantial portions of the 
+//   Software.
+//   -
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+//   THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+//   CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+//   IN THE SOFTWARE.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Stwalkerster.SharphConduit
 {
     using System;
     using System.Collections.Generic;
@@ -10,11 +29,11 @@
     /// <typeparam name="T">The datatype of the identifier</typeparam>
     public abstract class TransactionalObject<T>
     {
-        private readonly Dictionary<string, Transaction> pendingTransactions = new Dictionary<string, Transaction>();
-
         private readonly DateTime dateCreated;
 
         private readonly DateTime dateModified;
+
+        private readonly Dictionary<string, Transaction> pendingTransactions = new Dictionary<string, Transaction>();
 
         protected TransactionalObject()
         {
@@ -25,20 +44,6 @@
             this.dateCreated = new DateTime().AddSeconds(dateCreated);
             this.dateModified = new DateTime().AddSeconds(dateModified);
         }
-
-        protected internal Dictionary<string, Transaction> PendingTransactions
-        {
-            get
-            {
-                return this.pendingTransactions;
-            }
-        }
-
-        public string Uri { get; internal set; }
-
-        public T Identifier { get; internal set; }
-
-        public string ObjectPHID { get; internal set; }
 
         public DateTime DateCreated
         {
@@ -54,6 +59,25 @@
             {
                 return this.dateModified;
             }
+        }
+
+        public T Identifier { get; internal set; }
+
+        public string ObjectPHID { get; internal set; }
+
+        public string Uri { get; internal set; }
+
+        protected internal Dictionary<string, Transaction> PendingTransactions
+        {
+            get
+            {
+                return this.pendingTransactions;
+            }
+        }
+
+        public void AddTransaction(string key, Transaction transaction)
+        {
+            this.pendingTransactions.Add(key, transaction);
         }
 
         internal List<Transaction> GetTransactions()
@@ -150,11 +174,6 @@
                     this.pendingTransactions.Add(transaction.Type, transaction);
                 }
             }
-        }
-
-        public void AddTransaction(string key, Transaction transaction)
-        {
-            this.pendingTransactions.Add(key, transaction);
         }
     }
 }
