@@ -18,6 +18,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Stwalkerster.ConduitTestApplication
 {
+    using System.Collections.Generic;
+
     using Stwalkerster.SharphConduit;
     using Stwalkerster.SharphConduit.Applications;
     using Stwalkerster.SharphConduit.Applications.Maniphest;
@@ -43,26 +45,19 @@ namespace Stwalkerster.ConduitTestApplication
             string token = "api-afsnrvwx2jkls47ti7ododlqnxwz";
 
             var client = new ConduitClient(phabUrl, token);
-
+            
             var maniphest = new Maniphest(client);
 
-            var maniphestTask = maniphest.Info(7);
+            var constraint = ManiphestSearchConstraintFactory.Statuses(new List<string> { "open" });
+            var searchConstraints = new List<ApplicationEditorSearchConstraint> { constraint };
+            IEnumerable<ManiphestTask> response = maniphest.Search(constraints: searchConstraints);
 
-            // var maniphestTask = new ManiphestTask();
-            var phidLookup = new PHIDLookup(client);
-            var phidForObject = phidLookup.GetPHIDForObject("S2", "#work_stuff");
+            var task = new ManiphestTask();
 
-            // maniphestTask.Title = "Test private task";
-            // maniphestTask.Owner = "stwalkerster";
-            // maniphestTask.AddProjects(new List<string> { "testing", "work_stuff"});
-            // maniphestTask.Points = 4;
-            // maniphestTask.Description = "New task for testing all sorts of crazy things with";
-            // maniphestTask.Space = "PHID-SPCE-fqtvdv5vnsv6yhnzvyb4";
-
-            // maniphestTask.ViewPolicy = "work_stuff";
-            maniphestTask.EditPolicy = "#work_stuff";
-
-            maniphest.Edit(maniphestTask);
+            task.Title = "Example task";
+            task.Description = "Example description";
+            
+            maniphest.Edit(task);
         }
     }
 }

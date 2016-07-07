@@ -19,12 +19,9 @@
 
 namespace Stwalkerster.SharphConduit.Applications.Maniphest
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Security.Cryptography;
-    using System.Text;
 
     using Stwalkerster.SharphConduit.Utility;
 
@@ -297,11 +294,9 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
 
         public void AddComment(string text)
         {
-            var key = BitConverter.GetBytes(RandomProvider.Next());
-            var input = Encoding.UTF8.GetBytes(text);
-            var hash = new HMACSHA1(key).ComputeHash(input);
-            var hashValue = BitConverter.ToString(hash);
-            this.PendingTransactions.Add(hashValue, new Transaction { Type = "comment", Value = text });
+            this.PendingTransactions.Add(
+                RandomProvider.Next().ToString(),
+                new Transaction { Type = "comment", Value = text });
         }
 
         public void AddProjects(string project)

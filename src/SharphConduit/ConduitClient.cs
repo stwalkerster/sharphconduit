@@ -25,9 +25,7 @@ namespace Stwalkerster.SharphConduit
     using System.Net;
 
     using Newtonsoft.Json;
-
-    using PCLWebUtility;
-
+    
     using Stwalkerster.SharphConduit.Applications.Projects;
 
     public class ConduitClient
@@ -63,7 +61,7 @@ namespace Stwalkerster.SharphConduit
             IAsyncResult getRequestHandle = webRequest.BeginGetRequestStream(x => { }, new object());
 
             webRequest.Method = "POST";
-            string postData = string.Format("params={0}&format=json&__conduit__=1", WebUtility.UrlEncode(json));
+            string postData = string.Format("params={0}&format=json&__conduit__=1", Uri.EscapeDataString(json));
             
             var requestStream = new StreamWriter(webRequest.EndGetRequestStream(getRequestHandle));
             requestStream.Write(postData);
