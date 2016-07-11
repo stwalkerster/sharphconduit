@@ -58,9 +58,10 @@ namespace Stwalkerster.SharphConduit
             var json = JsonConvert.SerializeObject(parameterDictionary);
 
             var webRequest = (HttpWebRequest)WebRequest.Create(string.Format("{0}api/{1}", this.url, method));
+            webRequest.Method = "POST";
+
             IAsyncResult getRequestHandle = webRequest.BeginGetRequestStream(x => { }, new object());
 
-            webRequest.Method = "POST";
             string postData = string.Format("params={0}&format=json&__conduit__=1", Uri.EscapeDataString(json));
             
             var requestStream = new StreamWriter(webRequest.EndGetRequestStream(getRequestHandle));

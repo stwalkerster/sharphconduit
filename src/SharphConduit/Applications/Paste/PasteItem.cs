@@ -1,10 +1,8 @@
 ﻿namespace Stwalkerster.SharphConduit.Applications.Paste
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Text;
 
     using Stwalkerster.SharphConduit;
     using Stwalkerster.SharphConduit.Utility;
@@ -28,7 +26,7 @@
         private readonly string language;
 
         /// <summary>
-        /// The project phi ds.
+        /// The project phids.
         /// </summary>
         private readonly List<string> projectPHIDs;
 
@@ -43,7 +41,7 @@
         private readonly string status;
 
         /// <summary>
-        /// The subscriber phi ds.
+        /// The subscriber phids.
         /// </summary>
         private readonly List<string> subscriberPHIDs;
 
