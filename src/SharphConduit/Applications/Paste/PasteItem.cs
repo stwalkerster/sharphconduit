@@ -307,6 +307,54 @@
                 new Transaction { Type = "comment", Value = commentText });
         }
 
+        public void AddProjects(string project)
+        {
+            this.AddProjects(new[] { project });
+        }
+
+        public void AddProjects(IEnumerable<string> projects)
+        {
+            this.PendingTransactions.Add("projects.add", new Transaction { Type = "projects.add", Value = projects });
+        }
+
+        public void AddSubscribers(IEnumerable<string> subscribers)
+        {
+            this.PendingTransactions.Add(
+                "subscribers.add",
+                new Transaction { Type = "subscribers.add", Value = subscribers });
+        }
+
+        public void RemoveProjects(string project)
+        {
+            this.RemoveProjects(new[] { project });
+        }
+
+        public void RemoveProjects(IEnumerable<string> projects)
+        {
+            this.PendingTransactions.Add(
+                "projects.remove",
+                new Transaction { Type = "projects.remove", Value = projects });
+        }
+
+        public void RemoveSubscribers(IEnumerable<string> subscribers)
+        {
+            this.PendingTransactions.Add(
+                "subscribers.remove",
+                new Transaction { Type = "subscribers.remove", Value = subscribers });
+        }
+
+        public void SetProjects(IEnumerable<string> projects)
+        {
+            this.PendingTransactions.Add("projects.set", new Transaction { Type = "projects.set", Value = projects });
+        }
+
+        public void SetSubscribers(IEnumerable<string> subscribers)
+        {
+            this.PendingTransactions.Add(
+                "subscribers.set",
+                new Transaction { Type = "subscribers.set", Value = subscribers });
+        }
+
         #endregion
     }
 }
