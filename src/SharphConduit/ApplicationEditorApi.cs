@@ -22,22 +22,11 @@ namespace Stwalkerster.SharphConduit
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class ApplicationEditorApi<T, TId>
+    public abstract class ApplicationEditorApi<T, TId> : ConduitApplicationBase
         where T : TransactionalObject<TId>
     {
-        private readonly ConduitClient client;
-
-        protected ApplicationEditorApi(ConduitClient client)
+        protected ApplicationEditorApi(ConduitClient client) : base(client)
         {
-            this.client = client;
-        }
-
-        public ConduitClient ConduitClient
-        {
-            get
-            {
-                return this.client;
-            }
         }
 
         public void Edit(T transactionalObject)
