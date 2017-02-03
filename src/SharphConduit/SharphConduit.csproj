@@ -44,6 +44,8 @@
     </Compile>
     <Compile Include="ApplicationEditorApi.cs" />
     <Compile Include="ApplicationEditorSearchConstraint.cs" />
+    <Compile Include="Applications\Diffusion\Diffusion.cs" />
+    <Compile Include="Applications\Diffusion\Repository.cs" />
     <Compile Include="Applications\Files\AllocateResult.cs" />
     <Compile Include="Applications\Files\Files.cs" />
     <Compile Include="Applications\Files\FileToUpload.cs" />
