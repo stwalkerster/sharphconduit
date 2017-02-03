@@ -36,6 +36,10 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
 
         private readonly string icon;
 
+        private readonly string viewPolicy;
+        private readonly string editPolicy;
+        private readonly string joinPolicy;
+
         private readonly List<string> memberPHIDs;
 
         private readonly string name;
@@ -67,6 +71,9 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
             this.icon = icon;
             this.name = name;
             this.description = description;
+            this.viewPolicy = viewPolicy;
+            this.editPolicy = editPolicy;
+            this.joinPolicy = joinPolicy;
             this.memberPHIDs = memberPHIDs.ToList();
             this.watcherPHIDs = watcherPHIDs.ToList();
 
@@ -96,6 +103,42 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
             set
             {
                 this.SetValue(value, "description", this.description);
+            }
+        }
+
+        public string ViewPolicy
+        {
+            get
+            {
+                return this.GetValue("view", this.viewPolicy);
+            }
+            set
+            {
+                this.SetValue(value, "view", this.viewPolicy);
+            }
+        }
+
+        public string EditPolicy
+        {
+            get
+            {
+                return this.GetValue("edit", this.editPolicy);
+            }
+            set
+            {
+                this.SetValue(value, "edit", this.editPolicy);
+            }
+        }
+
+        public string JoinPolicy
+        {
+            get
+            {
+                return this.GetValue("join", this.joinPolicy);
+            }
+            set
+            {
+                this.SetValue(value, "join", this.joinPolicy);
             }
         }
 
