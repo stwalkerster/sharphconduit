@@ -45,6 +45,7 @@
                 identifier: (int)data.id,
                 title: (string)data.fields.title,
                 text: content,
+                authorPHID: (string)data.fields.authorPHID,
                 status: (string)data.fields.status,
                 language: (string)data.fields.language,
                 space: (string)data.fields.spacePHID,

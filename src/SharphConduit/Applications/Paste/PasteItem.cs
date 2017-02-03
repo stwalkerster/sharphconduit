@@ -16,6 +16,11 @@
         #region Fields
 
         /// <summary>
+        /// The author phid.
+        /// </summary>
+        private readonly string authorPHID;
+
+        /// <summary>
         /// The edit policy.
         /// </summary>
         private readonly string editPolicy;
@@ -88,6 +93,9 @@
         /// <param name="text">
         /// The text.
         /// </param>
+        /// <param name="authorPHID">
+        /// The author PHID.
+        /// </param>
         /// <param name="status">
         /// The status.
         /// </param>
@@ -120,6 +128,7 @@
             int identifier,
             string title,
             string text,
+            string authorPHID,
             string status,
             string language,
             string space,
@@ -136,6 +145,7 @@
 
             this.title = title;
             this.text = text;
+            this.authorPHID = authorPHID;
             this.status = status;
             this.language = language;
             this.space = space;
@@ -149,6 +159,22 @@
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the author phid.
+        /// </summary>
+        public string AuthorPHID
+        {
+            get
+            {
+                return this.GetValue("authorPHID", this.authorPHID);
+            }
+
+            set
+            {
+                this.SetValue(value, "authorPHID", this.authorPHID);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the edit policy.
