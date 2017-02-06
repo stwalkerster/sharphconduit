@@ -55,6 +55,7 @@
     <Compile Include="Applications\Paste\Paste.cs" />
     <Compile Include="Applications\Paste\PasteItem.cs" />
     <Compile Include="Applications\PHIDLookup.cs" />
+    <Compile Include="Applications\Phrequent\Phrequent.cs" />
     <Compile Include="Applications\Projects\ProjectIcon.cs" />
     <Compile Include="Applications\Projects\ProjectsSearchConstraintFactory.cs" />
     <Compile Include="ConduitApplicationBase.cs" />
