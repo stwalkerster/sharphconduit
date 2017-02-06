@@ -1,27 +1,83 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FileToUpload.cs" company="">
-//   
+// <copyright file="FileToUpload.cs" company="Simon Walker">
+//   Copyright (c) 2016 Simon Walker
+//   -
+//   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+//   documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+//   the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+//   to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above 
+//   copyright notice and this permission notice shall be included in all copies or substantial portions of the 
+//   Software.
+//   -
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+//   THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+//   CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+//   IN THE SOFTWARE.
 // </copyright>
-// <summary>
-//   The file to upload.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using PCLStorage;
+using Stwalkerster.SharphConduit.Utility;
 
 namespace Stwalkerster.SharphConduit.Applications.Files
 {
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
-
-    using PCLStorage;
-
-    using Stwalkerster.SharphConduit.Utility;
-
     /// <summary>
     /// The file to upload.
     /// </summary>
     public class FileToUpload : IUploadable
     {
+        /// <summary>
+        /// The get data.
+        /// </summary>
+        /// <param name="start">
+        /// The start.
+        /// </param>
+        /// <param name="length">
+        /// The length.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public string GetData(int start = 0, int? length = null)
+        {
+            var fileStream = this.OpenFileStream();
+
+            int bufferSize = length.GetValueOrDefault((int) fileStream.Length - start);
+            var buf = new byte[bufferSize];
+
+            fileStream.Read(buf, start, bufferSize);
+
+            return Convert.ToBase64String(buf);
+        }
+
+        /// <summary>
+        /// The open file stream.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="Stream"/>.
+        /// </returns>
+        private Stream OpenFileStream()
+        {
+            Task<IFile> fileFromPathTask = FileSystem.Current.GetFileFromPathAsync(this.Path);
+            fileFromPathTask.RunSynchronously();
+            var file = fileFromPathTask.Result;
+
+            if (file == null)
+            {
+                throw new Exception("Nonexistent file");
+            }
+
+            var openTask = file.OpenAsync(FileAccess.Read);
+            openTask.RunSynchronously();
+
+            Stream fileStream = openTask.Result;
+            return fileStream;
+        }
+
         #region Fields
 
         #endregion
@@ -40,7 +96,7 @@ namespace Stwalkerster.SharphConduit.Applications.Files
             var fileStream = this.OpenFileStream();
 
             byte[] buffer = new byte[fileStream.Length];
-            fileStream.Read(buffer, 0, (int)fileStream.Length);
+            fileStream.Read(buffer, 0, (int) fileStream.Length);
 
             this.Name = System.IO.Path.GetFileName(path);
             this.Size = 0;
@@ -113,53 +169,5 @@ namespace Stwalkerster.SharphConduit.Applications.Files
         public string Name { get; private set; }
 
         #endregion
-
-        /// <summary>
-        /// The get data.
-        /// </summary>
-        /// <param name="start">
-        /// The start.
-        /// </param>
-        /// <param name="length">
-        /// The length.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        public string GetData(int start = 0, int? length = null)
-        {
-            var fileStream = this.OpenFileStream();
-            
-            int bufferSize = length.GetValueOrDefault((int)fileStream.Length - start);
-            var buf = new byte[bufferSize];
-
-            fileStream.Read(buf, start, bufferSize);
-
-            return Convert.ToBase64String(buf);
-        }
-
-        /// <summary>
-        /// The open file stream.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="Stream"/>.
-        /// </returns>
-        private Stream OpenFileStream()
-        {
-            Task<IFile> fileFromPathTask = FileSystem.Current.GetFileFromPathAsync(this.Path);
-            fileFromPathTask.RunSynchronously();
-            var file = fileFromPathTask.Result;
-
-            if (file == null)
-            {
-                throw new Exception("Nonexistent file");
-            }
-
-            var openTask = file.OpenAsync(FileAccess.Read);
-            openTask.RunSynchronously();
-
-            Stream fileStream = openTask.Result;
-            return fileStream;
-        }
     }
 }

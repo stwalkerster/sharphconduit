@@ -33,7 +33,7 @@ namespace Stwalkerster.SharphConduit
 
         public void Edit(T transactionalObject)
         {
-            dynamic result = this.client.CallMethod(
+            dynamic result = this.ConduitClient.CallMethod(
                 string.Format("{0}.edit", this.GetApplicationName()),
                 new Dictionary<string, dynamic>
                     {
@@ -46,7 +46,7 @@ namespace Stwalkerster.SharphConduit
 
             // invalidates the transactions. Note, we can't "apply" the transaction to the object
             // because we don't know the mapping to the internal fields. We also don't know which succeeded.
-            // TODO: fix this.
+            // TODO: T568
             transactionalObject.InvalidateTransactions();
         }
 
@@ -77,11 +77,11 @@ namespace Stwalkerster.SharphConduit
                 query.Add("attachments", attachments.ToDictionary(x => x, x => true));
             }
 
-            // TODO: ordering
+            // TODO: ordering - T569
 
             while (true)
             {
-                dynamic response = this.client.CallMethod(string.Format("{0}.search", this.GetApplicationName()), query);
+                dynamic response = this.ConduitClient.CallMethod(string.Format("{0}.search", this.GetApplicationName()), query);
                 dynamic result = response["result"];
 
                 foreach (var entry in result["data"])

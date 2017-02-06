@@ -1,12 +1,29 @@
-﻿namespace Stwalkerster.SharphConduit.Applications.Paste
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PasteItem.cs" company="Simon Walker">
+//   Copyright (c) 2016 Simon Walker
+//   -
+//   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+//   documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+//   the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+//   to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above 
+//   copyright notice and this permission notice shall be included in all copies or substantial portions of the 
+//   Software.
+//   -
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+//   THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+//   CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+//   IN THE SOFTWARE.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Stwalkerster.SharphConduit.Utility;
+
+namespace Stwalkerster.SharphConduit.Applications.Paste
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-
-    using Stwalkerster.SharphConduit;
-    using Stwalkerster.SharphConduit.Utility;
-
     /// <summary>
     /// The paste item.
     /// </summary>
@@ -165,15 +182,9 @@
         /// </summary>
         public string AuthorPHID
         {
-            get
-            {
-                return this.GetValue("authorPHID", this.authorPHID);
-            }
+            get { return this.GetValue("authorPHID", this.authorPHID); }
 
-            set
-            {
-                this.SetValue(value, "authorPHID", this.authorPHID);
-            }
+            set { this.SetValue(value, "authorPHID", this.authorPHID); }
         }
 
         /// <summary>
@@ -181,15 +192,9 @@
         /// </summary>
         public string EditPolicy
         {
-            get
-            {
-                return this.GetValue("edit", this.editPolicy);
-            }
+            get { return this.GetValue("edit", this.editPolicy); }
 
-            set
-            {
-                this.SetValue(value, "edit", this.editPolicy);
-            }
+            set { this.SetValue(value, "edit", this.editPolicy); }
         }
 
         /// <summary>
@@ -197,15 +202,9 @@
         /// </summary>
         public string Language
         {
-            get
-            {
-                return this.GetValue("language", this.language);
-            }
+            get { return this.GetValue("language", this.language); }
 
-            set
-            {
-                this.SetValue(value, "language", this.language);
-            }
+            set { this.SetValue(value, "language", this.language); }
         }
 
         /// <summary>
@@ -217,7 +216,7 @@
             {
                 var enumerable = new List<string>(this.projectPHIDs);
 
-                // TODO: make this reflect the pending transactions
+                // TODO: make this reflect the pending transactions - T575
                 return enumerable;
             }
         }
@@ -227,15 +226,9 @@
         /// </summary>
         public string Space
         {
-            get
-            {
-                return this.GetValue("space", this.space);
-            }
+            get { return this.GetValue("space", this.space); }
 
-            set
-            {
-                this.SetValue(value, "space", this.space);
-            }
+            set { this.SetValue(value, "space", this.space); }
         }
 
         /// <summary>
@@ -243,15 +236,9 @@
         /// </summary>
         public string Status
         {
-            get
-            {
-                return this.GetValue("status", this.status);
-            }
+            get { return this.GetValue("status", this.status); }
 
-            set
-            {
-                this.SetValue(value, "status", this.status);
-            }
+            set { this.SetValue(value, "status", this.status); }
         }
 
         /// <summary>
@@ -263,7 +250,7 @@
             {
                 var enumerable = new List<string>(this.subscriberPHIDs);
 
-                // TODO: make this reflect the pending transactions
+                // TODO: make this reflect the pending transactions - T575
                 return enumerable;
             }
         }
@@ -273,15 +260,9 @@
         /// </summary>
         public string Text
         {
-            get
-            {
-                return this.GetValue("text", this.text);
-            }
+            get { return this.GetValue("text", this.text); }
 
-            set
-            {
-                this.SetValue(value, "text", this.text);
-            }
+            set { this.SetValue(value, "text", this.text); }
         }
 
         /// <summary>
@@ -289,15 +270,9 @@
         /// </summary>
         public string Title
         {
-            get
-            {
-                return this.GetValue("title", this.title);
-            }
+            get { return this.GetValue("title", this.title); }
 
-            set
-            {
-                this.SetValue(value, "title", this.title);
-            }
+            set { this.SetValue(value, "title", this.title); }
         }
 
         /// <summary>
@@ -305,15 +280,9 @@
         /// </summary>
         public string ViewPolicy
         {
-            get
-            {
-                return this.GetValue("view", this.viewPolicy);
-            }
+            get { return this.GetValue("view", this.viewPolicy); }
 
-            set
-            {
-                this.SetValue(value, "view", this.viewPolicy);
-            }
+            set { this.SetValue(value, "view", this.viewPolicy); }
         }
 
         #endregion
@@ -330,55 +299,55 @@
         {
             this.PendingTransactions.Add(
                 RandomProvider.Next().ToString(),
-                new Transaction { Type = "comment", Value = commentText });
+                new Transaction {Type = "comment", Value = commentText});
         }
 
         public void AddProjects(string project)
         {
-            this.AddProjects(new[] { project });
+            this.AddProjects(new[] {project});
         }
 
         public void AddProjects(IEnumerable<string> projects)
         {
-            this.PendingTransactions.Add("projects.add", new Transaction { Type = "projects.add", Value = projects });
+            this.PendingTransactions.Add("projects.add", new Transaction {Type = "projects.add", Value = projects});
         }
 
         public void AddSubscribers(IEnumerable<string> subscribers)
         {
             this.PendingTransactions.Add(
                 "subscribers.add",
-                new Transaction { Type = "subscribers.add", Value = subscribers });
+                new Transaction {Type = "subscribers.add", Value = subscribers});
         }
 
         public void RemoveProjects(string project)
         {
-            this.RemoveProjects(new[] { project });
+            this.RemoveProjects(new[] {project});
         }
 
         public void RemoveProjects(IEnumerable<string> projects)
         {
             this.PendingTransactions.Add(
                 "projects.remove",
-                new Transaction { Type = "projects.remove", Value = projects });
+                new Transaction {Type = "projects.remove", Value = projects});
         }
 
         public void RemoveSubscribers(IEnumerable<string> subscribers)
         {
             this.PendingTransactions.Add(
                 "subscribers.remove",
-                new Transaction { Type = "subscribers.remove", Value = subscribers });
+                new Transaction {Type = "subscribers.remove", Value = subscribers});
         }
 
         public void SetProjects(IEnumerable<string> projects)
         {
-            this.PendingTransactions.Add("projects.set", new Transaction { Type = "projects.set", Value = projects });
+            this.PendingTransactions.Add("projects.set", new Transaction {Type = "projects.set", Value = projects});
         }
 
         public void SetSubscribers(IEnumerable<string> subscribers)
         {
             this.PendingTransactions.Add(
                 "subscribers.set",
-                new Transaction { Type = "subscribers.set", Value = subscribers });
+                new Transaction {Type = "subscribers.set", Value = subscribers});
         }
 
         #endregion

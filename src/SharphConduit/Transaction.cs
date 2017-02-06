@@ -26,10 +26,10 @@ namespace Stwalkerster.SharphConduit
     public class Transaction
     {
         /// <summary>
-        /// Gets or sets a value indicating whether invalided.
+        /// Gets or sets a value indicating whether invalidated.
         /// </summary>
         [JsonIgnore]
-        public bool Invalided { get; set; }
+        public bool Invalidated { get; set; }
 
         /// <summary>
         /// Gets or sets the type.

@@ -16,14 +16,12 @@
 //   IN THE SOFTWARE.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace Stwalkerster.ConduitClient.Applications.Projects
+
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Stwalkerster.SharphConduit.Applications.Projects
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using Stwalkerster.SharphConduit;
-    using Stwalkerster.SharphConduit.Applications.Projects;
-
     /// <summary>
     /// The projects search constraint factory.
     /// </summary>

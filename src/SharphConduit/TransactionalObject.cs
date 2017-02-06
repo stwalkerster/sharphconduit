@@ -82,14 +82,14 @@ namespace Stwalkerster.SharphConduit
 
         internal List<Transaction> GetTransactions()
         {
-            return new List<Transaction>(this.pendingTransactions.Values.Where(x => !x.Invalided));
+            return new List<Transaction>(this.pendingTransactions.Values.Where(x => !x.Invalidated));
         }
 
         internal void InvalidateTransactions()
         {
             foreach (var trans in this.pendingTransactions.Values)
             {
-                trans.Invalided = true;
+                trans.Invalidated = true;
             }
         }
 

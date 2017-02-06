@@ -1,11 +1,28 @@
-﻿namespace Stwalkerster.SharphConduit.Applications.Files
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Files.cs" company="Simon Walker">
+//   Copyright (c) 2016 Simon Walker
+//   -
+//   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+//   documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+//   the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+//   to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above 
+//   copyright notice and this permission notice shall be included in all copies or substantial portions of the 
+//   Software.
+//   -
+//   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+//   THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+//   CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+//   IN THE SOFTWARE.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace Stwalkerster.SharphConduit.Applications.Files
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-
-    using Stwalkerster.SharphConduit;
-
     /// <summary>
     /// The files.
     /// </summary>
@@ -80,7 +97,7 @@
             {
                 string phid = this.UploadData(file);
                 file.Uploadable.PHID = phid;
-                
+
                 success.Add(file);
             }
         }
@@ -90,14 +107,14 @@
             // Query for chunks
             var chunks = this.ConduitClient.CallMethod(
                 "file.querychunks",
-                new Dictionary<string, dynamic> { { "filePHID", chunk.PHID } });
+                new Dictionary<string, dynamic> {{"filePHID", chunk.PHID}});
 
             Debugger.Break();
         }
 
         private string UploadData(AllocateResult file)
         {
-            var parameters = new Dictionary<string, dynamic> { { "name", file.Uploadable.Name }, };
+            var parameters = new Dictionary<string, dynamic> {{"name", file.Uploadable.Name},};
 
             if (file.Uploadable.ViewPolicy != null)
             {
@@ -113,9 +130,8 @@
                 throw new ConduitException(result.error_code, result.error_info);
             }
 
-            return (string)result.result;
+            return (string) result.result;
         }
-
 
 
         private IEnumerable<AllocateResult> AllocateFiles(IEnumerable<IUploadable> uploadables)
@@ -125,11 +141,11 @@
             foreach (var uploadable in uploadables)
             {
                 var parameters = new Dictionary<string, dynamic>
-                                     {
-                                         { "name", uploadable.Name },
-                                         { "contentLength", uploadable.Size },
-                                         { "contentHash", uploadable.Hash },
-                                     };
+                {
+                    {"name", uploadable.Name},
+                    {"contentLength", uploadable.Size},
+                    {"contentHash", uploadable.Hash},
+                };
 
                 if (uploadable.ViewPolicy != null)
                 {
@@ -140,7 +156,7 @@
 
                 dynamic result = this.ConduitClient.CallMethod("file.allocate", parameters);
 
-                results.Add(new AllocateResult((bool)result.result.upload, (string)result.result.filePHID, uploadable));
+                results.Add(new AllocateResult((bool) result.result.upload, (string) result.result.filePHID, uploadable));
             }
 
             return results;

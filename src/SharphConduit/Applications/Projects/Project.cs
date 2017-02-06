@@ -21,13 +21,7 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
 {
     using System.Collections.Generic;
     using System.Linq;
-
-    /// <summary>
-    ///     TODO: members
-    ///     TODO: slugs
-    ///     TODO: view + edit + join policies
-    ///     TODO: parent + milestone on creation
-    /// </summary>
+    
     public class Project : TransactionalObject<int>
     {
         private readonly string color;
@@ -159,7 +153,7 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
             get
             {
                 var enumerable = new List<string>(this.memberPHIDs);
-                // TODO: make this reflect the pending transactions
+                // TODO: make this reflect the pending transactions - T571
                 return enumerable;
             }
         }
@@ -181,7 +175,7 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
             get
             {
                 var enumerable = new List<string>(this.watcherPHIDs);
-                // TODO: make this reflect the pending transactions
+                // TODO: make this reflect the pending transactions - T571
                 return enumerable;
             }
         }

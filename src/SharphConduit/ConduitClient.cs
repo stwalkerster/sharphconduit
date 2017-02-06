@@ -27,8 +27,6 @@ namespace Stwalkerster.SharphConduit
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    using Stwalkerster.SharphConduit.Applications.Projects;
-
     public class ConduitClient
     {
         private readonly string token;
@@ -39,9 +37,6 @@ namespace Stwalkerster.SharphConduit
         {
             this.url = url;
             this.token = token;
-
-            var tmpIcon = ProjectIcon.Project;
-            var tmpColor = ProjectColor.Red;
         }
 
         /// <summary>

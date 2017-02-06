@@ -38,7 +38,7 @@ namespace Stwalkerster.SharphConduit.Applications
                 "phid.lookup",
                 new Dictionary<string, dynamic> { { "names", identifiers } });
 
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            var data = new Dictionary<string, string>();
 
             foreach (JProperty x in response.result)
             {

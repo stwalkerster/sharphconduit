@@ -70,25 +70,25 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
                     .ToDictionary(x => ((JProperty)x).Name, y => (dynamic)((JProperty)y).Value);
 
             var task = new ManiphestTask(
-                (string)data["phid"],
-                (int)data["id"],
-                null,
-                (string)data["fields"]["name"],
-                null,
-                (string)data["fields"]["status"]["value"],
-                null,
-                (string)data["fields"]["value"],
-                (string)data["fields"]["ownerPHID"],
-                (string)data["fields"]["authorPHID"],
-                (string)data["fields"]["spacePHID"],
-                (int?)data["fields"]["points"],
-                (string)data["fields"]["policy"]["view"],
-                (string)data["fields"]["policy"]["edit"],
-                (int)data["fields"]["dateCreated"],
-                (int)data["fields"]["dateModified"],
-                projects,
-                subscribers,
-                customFields);
+                phid: (string)data["phid"],
+                identifier: (int)data["id"],
+                uri: null,
+                title: (string)data["fields"]["name"],
+                description: null,
+                status: (string)data["fields"]["status"]["value"],
+                parent: null,
+                priority: (string)data["fields"]["value"],
+                owner: (string)data["fields"]["ownerPHID"],
+                author: (string)data["fields"]["authorPHID"],
+                space: (string)data["fields"]["spacePHID"],
+                points: (int?)data["fields"]["points"],
+                viewPolicy: (string)data["fields"]["policy"]["view"],
+                editPolicy: (string)data["fields"]["policy"]["edit"],
+                dateCreated: (int)data["fields"]["dateCreated"],
+                dateModified: (int)data["fields"]["dateModified"],
+                projectPHIDs: projects,
+                subscriberPHIDs: subscribers,
+                customFields: customFields);
 
             return task;
         }
