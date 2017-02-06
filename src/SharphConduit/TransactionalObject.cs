@@ -41,8 +41,8 @@ namespace Stwalkerster.SharphConduit
 
         protected TransactionalObject(int dateCreated, int dateModified)
         {
-            this.dateCreated = new DateTime().AddSeconds(dateCreated);
-            this.dateModified = new DateTime().AddSeconds(dateModified);
+            this.dateCreated = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(dateCreated);
+            this.dateModified = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(dateModified);
         }
 
         public DateTime DateCreated
