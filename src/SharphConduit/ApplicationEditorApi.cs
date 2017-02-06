@@ -22,6 +22,8 @@ namespace Stwalkerster.SharphConduit
     using System.Collections.Generic;
     using System.Linq;
 
+    using Newtonsoft.Json.Linq;
+
     public abstract class ApplicationEditorApi<T, TId> : ConduitApplicationBase
         where T : TransactionalObject<TId>
     {
@@ -80,14 +82,15 @@ namespace Stwalkerster.SharphConduit
             while (true)
             {
                 dynamic response = this.client.CallMethod(string.Format("{0}.search", this.GetApplicationName()), query);
-                dynamic result = response.result;
+                dynamic result = response["result"];
 
-                foreach (var entry in result.data)
+                foreach (var entry in result["data"])
                 {
                     yield return this.NewFromSearch(entry);
                 }
 
-                if (result.cursor.after == null)
+                JToken o = result["cursor"]["after"];
+                if (o.Type == JTokenType.Null)
                 {
                     yield break;
                 }
@@ -97,7 +100,7 @@ namespace Stwalkerster.SharphConduit
                     query.Remove("after");
                 }
 
-                query.Add("after", result.cursor.after);
+                query.Add("after", result["cursor"]["after"]);
             }
         }
 

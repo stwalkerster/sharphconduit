@@ -25,7 +25,8 @@ namespace Stwalkerster.SharphConduit
     using System.Net;
 
     using Newtonsoft.Json;
-    
+    using Newtonsoft.Json.Linq;
+
     using Stwalkerster.SharphConduit.Applications.Projects;
 
     public class ConduitClient
@@ -81,11 +82,11 @@ namespace Stwalkerster.SharphConduit
             var responseStream = new StreamReader(responseRawStream);
             var responseData = responseStream.ReadToEnd();
 
-            dynamic result = JsonConvert.DeserializeObject(responseData);
+            JObject result = (JObject)JsonConvert.DeserializeObject(responseData);
 
-            if (result.error_code != null)
+            if (result["error_code"].Type != JTokenType.Null)
             {
-                throw new ConduitException((string)result.error_code, (string)result.error_info);
+                throw new ConduitException((string)result["error_code"], (string)result["error_info"]);
             }
 
             return result;

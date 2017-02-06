@@ -48,44 +48,44 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
             var subscribers = new List<string>();
             var projects = new List<string>();
 
-            if (data.attachments != null)
+            if (data["attachments"] != null)
             {
-                if (data.attachments.projects != null)
+                if (data["attachments"]["projects"] != null)
                 {
-                    var projectPHIDs = (JArray)data.attachments.projects.projectPHIDs;
+                    var projectPHIDs = (JArray)data["attachments"]["projects"]["projectPHIDs"];
                     projects = new List<string>(projectPHIDs.Values<string>());
                 }
 
-                if (data.attachments.subscribers != null)
+                if (data["attachments"]["subscribers"] != null)
                 {
-                    var subscriberPHIDs = (JArray)data.attachments.subscribers.subscriberPHIDs;
+                    var subscriberPHIDs = (JArray)data["attachments"]["subscribers"]["subscriberPHIDs"];
                     subscribers = new List<string>(subscriberPHIDs.Values<string>());
                 }
             }
 
             var customFields =
-                ((JObject)data.fields).AsJEnumerable()
+                ((JObject)data["fields"]).AsJEnumerable()
                     .ToList()
                     .Where(x => ((JProperty)x).Name.StartsWith("custom."))
                     .ToDictionary(x => ((JProperty)x).Name, y => (dynamic)((JProperty)y).Value);
 
             var task = new ManiphestTask(
-                (string)data.phid,
-                (int)data.id,
+                (string)data["phid"],
+                (int)data["id"],
                 null,
-                (string)data.fields.name,
+                (string)data["fields"]["name"],
                 null,
-                (string)data.fields.status.value,
+                (string)data["fields"]["status"]["value"],
                 null,
-                (string)data.fields.priority.value,
-                (string)data.fields.ownerPHID,
-                (string)data.fields.authorPHID,
-                (string)data.fields.spacePHID,
-                (int?)data.fields.points,
-                (string)data.fields.policy.view,
-                (string)data.fields.policy.edit,
-                (int)data.fields.dateCreated,
-                (int)data.fields.dateModified,
+                (string)data["fields"]["value"],
+                (string)data["fields"]["ownerPHID"],
+                (string)data["fields"]["authorPHID"],
+                (string)data["fields"]["spacePHID"],
+                (int?)data["fields"]["points"],
+                (string)data["fields"]["policy"]["view"],
+                (string)data["fields"]["policy"]["edit"],
+                (int)data["fields"]["dateCreated"],
+                (int)data["fields"]["dateModified"],
                 projects,
                 subscribers,
                 customFields);
