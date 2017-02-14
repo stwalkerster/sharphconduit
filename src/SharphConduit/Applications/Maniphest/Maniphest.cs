@@ -77,7 +77,7 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
                 description: null,
                 status: (string)data["fields"]["status"]["value"],
                 parent: null,
-                priority: (string)data["fields"]["value"],
+                priority: (string)data["fields"]["priority"]["value"],
                 owner: (string)data["fields"]["ownerPHID"],
                 author: (string)data["fields"]["authorPHID"],
                 space: (string)data["fields"]["spacePHID"],
