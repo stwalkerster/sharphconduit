@@ -24,6 +24,8 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
     
     public class Project : TransactionalObject<int>
     {
+        private readonly IDictionary<string, dynamic> customFields;
+
         private readonly string color;
 
         private readonly string description;
@@ -42,6 +44,7 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
 
         public Project()
         {
+            this.customFields = new Dictionary<string, dynamic>();
         }
 
         internal Project(
@@ -58,7 +61,8 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
             int dateCreated,
             int dateModified,
             IEnumerable<string> memberPHIDs,
-            IEnumerable<string> watcherPHIDs)
+            IEnumerable<string> watcherPHIDs,
+            IDictionary<string, dynamic> customFields)
             : base(dateCreated, dateModified)
         {
             this.color = color;
@@ -68,12 +72,18 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
             this.viewPolicy = viewPolicy;
             this.editPolicy = editPolicy;
             this.joinPolicy = joinPolicy;
+            this.customFields = customFields;
             this.memberPHIDs = memberPHIDs.ToList();
             this.watcherPHIDs = watcherPHIDs.ToList();
 
             this.ObjectPHID = phid;
             this.Identifier = identifier;
             this.Uri = uri;
+        }
+
+        public IDictionary<string, dynamic> CustomFields
+        {
+            get { return new Dictionary<string, dynamic>(this.customFields); }
         }
 
         public ProjectColor Color

@@ -21,6 +21,7 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Newtonsoft.Json.Linq;
 
@@ -57,21 +58,28 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
                 }
             }
 
+            var customFields =
+                ((JObject)data["fields"]).AsJEnumerable()
+                    .ToList()
+                    .Where(x => ((JProperty)x).Name.StartsWith("custom."))
+                    .ToDictionary(x => ((JProperty)x).Name, y => (dynamic)((JProperty)y).Value);
+
             return new Project(
-                (string)data.phid,
-                (int)data.id,
-                null,
-                (string)data.fields.color.key,
-                (string)data.fields.icon.key,
-                (string)data.fields.name,
-                (string)data.fields.description,
-                (string)data.fields.policy.view,
-                (string)data.fields.policy.edit,
-                (string)data.fields.policy.join,
-                (int)data.fields.dateCreated,
-                (int)data.fields.dateModified,
-                members,
-                watchers);
+                phid: (string)data.phid,
+                identifier: (int)data.id,
+                uri: null,
+                color: (string)data.fields.color.key,
+                icon: (string)data.fields.icon.key,
+                name: (string)data.fields.name,
+                description: (string)data.fields.description,
+                viewPolicy: (string)data.fields.policy.view,
+                editPolicy: (string)data.fields.policy.edit,
+                joinPolicy: (string)data.fields.policy.join,
+                dateCreated: (int)data.fields.dateCreated,
+                dateModified: (int)data.fields.dateModified,
+                memberPHIDs: members,
+                watcherPHIDs: watchers,
+                customFields: customFields);
         }
 
         public ProjectWorkboardColumns Columns { get; private set; }
