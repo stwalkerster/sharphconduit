@@ -24,6 +24,8 @@ using Stwalkerster.SharphConduit.Utility;
 
 namespace Stwalkerster.SharphConduit.Applications.Maniphest
 {
+    using System.Collections.ObjectModel;
+
     /// <summary>
     ///     Represents a task in Maniphest
     /// </summary>
@@ -33,6 +35,8 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
         private readonly string author;
 
         private readonly IDictionary<string, dynamic> customFields;
+
+        private readonly IDictionary<string, List<string>> workboardColumns;
 
         private readonly string description;
 
@@ -64,6 +68,7 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
             this.subscriberPHIDs = new List<string>();
 
             this.customFields = new Dictionary<string, dynamic>();
+            this.workboardColumns = new Dictionary<string, List<string>>();
         }
 
         internal ManiphestTask(
@@ -85,7 +90,8 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
             int dateModified,
             IEnumerable<string> projectPHIDs,
             IEnumerable<string> subscriberPHIDs,
-            IDictionary<string, dynamic> customFields)
+            IDictionary<string, dynamic> customFields,
+            IDictionary<string, List<string>> workboardColumns)
             : base(dateCreated, dateModified)
         {
             this.ObjectPHID = phid;
@@ -105,6 +111,7 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
             this.editPolicy = editPolicy;
 
             this.customFields = customFields;
+            this.workboardColumns = workboardColumns;
 
             this.projectPHIDs = projectPHIDs.ToList();
             this.subscriberPHIDs = subscriberPHIDs.ToList();
@@ -214,59 +221,71 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
             set { this.SetValue(value, "view", this.viewPolicy); }
         }
 
+        public ReadOnlyDictionary<string, ReadOnlyCollection<string>> WorkboardColumns
+        {
+            get
+            {
+                return
+                    new ReadOnlyDictionary<string, ReadOnlyCollection<string>>(
+                        this.workboardColumns.ToDictionary(
+                            col => col.Key,
+                            col => new ReadOnlyCollection<string>(col.Value)));
+            }
+        }
+
         public void AddComment(string text)
         {
             this.PendingTransactions.Add(
                 RandomProvider.Next().ToString(),
-                new Transaction {Type = "comment", Value = text});
+                new Transaction { Type = "comment", Value = text });
         }
 
         public void AddProjects(string project)
         {
-            this.AddProjects(new[] {project});
+            this.AddProjects(new[] { project });
         }
 
         public void AddProjects(IEnumerable<string> projects)
         {
-            this.PendingTransactions.Add("projects.add", new Transaction {Type = "projects.add", Value = projects});
+            this.PendingTransactions.Add("projects.add", new Transaction { Type = "projects.add", Value = projects });
         }
 
         public void AddSubscribers(IEnumerable<string> subscribers)
         {
             this.PendingTransactions.Add(
                 "subscribers.add",
-                new Transaction {Type = "subscribers.add", Value = subscribers});
+                new Transaction { Type = "subscribers.add", Value = subscribers });
         }
 
         public void RemoveProjects(string project)
         {
-            this.RemoveProjects(new[] {project});
+            this.RemoveProjects(new[] { project });
         }
 
         public void RemoveProjects(IEnumerable<string> projects)
         {
             this.PendingTransactions.Add(
                 "projects.remove",
-                new Transaction {Type = "projects.remove", Value = projects});
+                new Transaction { Type = "projects.remove", Value = projects });
         }
 
         public void RemoveSubscribers(IEnumerable<string> subscribers)
         {
             this.PendingTransactions.Add(
                 "subscribers.remove",
-                new Transaction {Type = "subscribers.remove", Value = subscribers});
+                new Transaction { Type = "subscribers.remove", Value = subscribers });
         }
 
         public void SetProjects(IEnumerable<string> projects)
         {
-            this.PendingTransactions.Add("projects.set", new Transaction {Type = "projects.set", Value = projects});
+            this.PendingTransactions.Add("projects.set", new Transaction { Type = "projects.set", Value = projects });
         }
 
         public void SetSubscribers(IEnumerable<string> subscribers)
         {
             this.PendingTransactions.Add(
                 "subscribers.set",
-                new Transaction {Type = "subscribers.set", Value = subscribers});
+                new Transaction { Type = "subscribers.set", Value = subscribers });
         }
     }
 }

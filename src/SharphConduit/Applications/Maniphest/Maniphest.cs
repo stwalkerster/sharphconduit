@@ -47,6 +47,7 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
         {
             var subscribers = new List<string>();
             var projects = new List<string>();
+            var workboardColumns = new Dictionary<string, List<string>>();
 
             if (data["attachments"] != null)
             {
@@ -60,6 +61,20 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
                 {
                     var subscriberPHIDs = (JArray)data["attachments"]["subscribers"]["subscriberPHIDs"];
                     subscribers = new List<string>(subscriberPHIDs.Values<string>());
+                }
+
+                if (data["attachments"]["columns"] != null)
+                {
+                    var boards =(JObject) data["attachments"]["columns"]["boards"];
+
+                    var cols = new Dictionary<string, List<string>>();
+
+                    foreach (var board in boards)
+                    {
+                        cols.Add(board.Key, board.Value["columns"].Select(col => (string)col["phid"]).ToList());
+                    }
+
+                    workboardColumns = cols;
                 }
             }
 
@@ -88,7 +103,8 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
                 dateModified: (int)data["fields"]["dateModified"],
                 projectPHIDs: projects,
                 subscriberPHIDs: subscribers,
-                customFields: customFields);
+                customFields: customFields,
+                workboardColumns: workboardColumns);
 
             return task;
         }
