@@ -46,7 +46,7 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
 
         private readonly string parent;
 
-        private readonly int? points;
+        private readonly double? points;
 
         private readonly string priority;
 
@@ -83,7 +83,7 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
             string owner,
             string author,
             string space,
-            int? points,
+            double? points,
             string viewPolicy,
             string editPolicy,
             int dateCreated,
@@ -155,7 +155,7 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
             set { this.SetValue(value, "parent", this.parent); }
         }
 
-        public int? Points
+        public double? Points
         {
             get { return this.GetValue("points", this.points); }
 

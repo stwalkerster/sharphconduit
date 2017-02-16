@@ -96,7 +96,7 @@ namespace Stwalkerster.SharphConduit.Applications.Maniphest
                 owner: (string)data["fields"]["ownerPHID"],
                 author: (string)data["fields"]["authorPHID"],
                 space: (string)data["fields"]["spacePHID"],
-                points: (int?)data["fields"]["points"],
+                points: (double?)data["fields"]["points"],
                 viewPolicy: (string)data["fields"]["policy"]["view"],
                 editPolicy: (string)data["fields"]["policy"]["edit"],
                 dateCreated: (int)data["fields"]["dateCreated"],
