@@ -38,6 +38,8 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
         public static ProjectIcon Group = new ProjectIcon("group");
 
         public static ProjectIcon Infrastructure = new ProjectIcon("infrastructure");
+       
+        public static ProjectIcon Milestone = new ProjectIcon("milestone");
 
         public static ProjectIcon Organization = new ProjectIcon("organization");
 
@@ -59,7 +61,7 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
                 new[]
                     {
                         Project, Tag, Policy, Group, Folder, Timeline, Goal, Release, Bugs, Cleanup, Umbrella,
-                        Communication, Organization, Infrastructure, Account, Experimental
+                        Communication, Organization, Infrastructure, Account, Experimental, Milestone
                     });
         }
 

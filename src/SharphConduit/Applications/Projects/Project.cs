@@ -147,6 +147,18 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
                 this.SetValue(value.ApiName, "icon", this.icon);
             }
         }
+        
+        public string IconName
+        {
+            get
+            {
+                return this.GetValue("icon", this.icon);
+            }
+            set
+            {
+                this.SetValue(value, "icon", this.icon);
+            }
+        }
 
         public List<string> MemberPHIDs
         {
