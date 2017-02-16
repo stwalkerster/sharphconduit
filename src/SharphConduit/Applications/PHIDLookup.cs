@@ -40,10 +40,10 @@ namespace Stwalkerster.SharphConduit.Applications
 
             var data = new Dictionary<string, string>();
 
-            foreach (JProperty x in response.result)
+            foreach (JProperty x in response["result"])
             {
                 dynamic entry = x.Value;
-                data.Add(x.Name, (string)entry.phid);
+                data.Add(x.Name, (string)entry["phid"]);
             }
 
             return data;
