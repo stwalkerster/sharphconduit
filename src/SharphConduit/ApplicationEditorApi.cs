@@ -31,7 +31,7 @@ namespace Stwalkerster.SharphConduit
         {
         }
 
-        public void Edit(T transactionalObject)
+        public virtual void Edit(T transactionalObject)
         {
             dynamic result = this.ConduitClient.CallMethod(
                 string.Format("{0}.edit", this.GetApplicationName()),
@@ -50,7 +50,7 @@ namespace Stwalkerster.SharphConduit
             transactionalObject.InvalidateTransactions();
         }
 
-        public IEnumerable<T> Search(
+        public virtual IEnumerable<T> Search(
             string baseQuery = null,
             IEnumerable<ApplicationEditorSearchConstraint> constraints = null,
             IEnumerable<string> attachments = null)

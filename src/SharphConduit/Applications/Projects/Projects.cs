@@ -19,6 +19,7 @@
 
 namespace Stwalkerster.SharphConduit.Applications.Projects
 {
+    using System;
     using System.Collections.Generic;
 
     using Newtonsoft.Json.Linq;
@@ -28,6 +29,7 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
         public Projects(ConduitClient client)
             : base(client)
         {
+            this.Columns = new ProjectWorkboardColumns(client);
         }
 
         protected override string GetApplicationName()
@@ -70,6 +72,43 @@ namespace Stwalkerster.SharphConduit.Applications.Projects
                 (int)data.fields.dateModified,
                 members,
                 watchers);
+        }
+
+        public ProjectWorkboardColumns Columns { get; private set; }
+
+        public class ProjectWorkboardColumns : ApplicationEditorApi<WorkboardColumn, int>
+        {
+            public ProjectWorkboardColumns(ConduitClient client)
+                : base(client)
+            {
+            }
+
+            protected override string GetApplicationName()
+            {
+                return "project.column";
+            }
+
+            protected override WorkboardColumn NewFromSearch(dynamic data)
+            {
+                var col = new WorkboardColumn(
+                    phid: (string)data["phid"],
+                    identifier: (int)data["id"],
+                    uri: null,
+                    name: (string)data["fields"]["name"],
+                    project: (string)data["fields"]["project"]["phid"],
+                    viewPolicy: (string)data["fields"]["policy"]["view"],
+                    editPolicy: (string)data["fields"]["policy"]["edit"],
+                    proxyPHID: (string)data["fields"]["proxyPHID"],
+                    dateCreated: (int)data["fields"]["dateCreated"],
+                    dateModified: (int)data["fields"]["dateModified"]);
+
+                return col;
+            }
+
+            public override void Edit(WorkboardColumn transactionalObject)
+            {
+                throw new InvalidOperationException("This method is not available");
+            }
         }
     }
 }

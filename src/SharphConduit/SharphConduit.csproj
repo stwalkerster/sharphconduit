@@ -58,6 +58,7 @@
     <Compile Include="Applications\Phrequent\Phrequent.cs" />
     <Compile Include="Applications\Projects\ProjectIcon.cs" />
     <Compile Include="Applications\Projects\ProjectsSearchConstraintFactory.cs" />
+    <Compile Include="Applications\Projects\WorkboardColumn.cs" />
     <Compile Include="ConduitApplicationBase.cs" />
     <Compile Include="ConduitLookupBase.cs" />
     <Compile Include="Applications\Projects\Project.cs" />
