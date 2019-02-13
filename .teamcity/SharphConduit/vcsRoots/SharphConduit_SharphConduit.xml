@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="0db0fc70-9d20-4d60-b9d7-f1c7684f8bdb" type="jetbrains.git" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>SharphConduit</name>
+  <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
+  <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
+  <param name="authMethod" value="PRIVATE_KEY_DEFAULT" />
+  <param name="branch" value="refs/heads/master" />
+  <param name="ignoreKnownHosts" value="true" />
+  <param name="submoduleCheckout" value="CHECKOUT" />
+  <param name="url" value="ssh://git@phabricator.stwalkerster.co.uk/diffusion/SHARPH/sharphconduit.git" />
+  <param name="useAlternates" value="true" />
+  <param name="usernameStyle" value="FULL" />
+</vcs-root>
+

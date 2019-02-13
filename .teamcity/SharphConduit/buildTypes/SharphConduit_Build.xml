@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="c27c1cf7-93e0-4672-a757-ef388c767c98" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Build</name>
+  <description />
+  <settings ref="DotNetLibrary">
+    <disabled-settings>
+      <setting-ref ref="RUNNER_15" />
+    </disabled-settings>
+    <parameters>
+      <param name="pathPrefix" value="src/" />
+      <param name="solutionName" value="SharphConduit" />
+      <param name="testProjectName" value="" />
+      <param name="version" value="0.1.3" />
+    </parameters>
+    <build-runners>
+      <runner id="RUNNER_24" name="Publish NuGet packages" type="jb.nuget.publish">
+        <parameters>
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
+          <param name="nuget.publish.files" value="output/Stwalkerster.SharphConduit.*.nupkg" />
+          <param name="nuget.publish.source" value="https://nexus.scimonshouse.net/repository/nuget-hosted/" />
+          <param name="secure:nuget.api.key" value="credentialsJSON:daa47f44-7fff-4c09-92da-610e7179f0bc" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_16" name="" type="jb.nuget.pack">
+        <parameters>
+          <param name="nuget.pack.as.artifact" value="true" />
+          <param name="nuget.pack.commandline" value="-MsbuildPath /usr/lib/mono/msbuild/15.0/bin/" />
+          <param name="nuget.pack.output.directory" value="output/" />
+          <param name="nuget.pack.project.dir" value="as_is" />
+          <param name="nuget.pack.properties" value="Configuration=Release" />
+          <param name="nuget.pack.specFile" value="%pathPrefix%%primaryProjectName%/%primaryProjectName%.csproj" />
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="SharphConduit_SharphConduit" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <build-extensions>
+      <extension id="JetBrains.AssemblyInfo" type="JetBrains.AssemblyInfo">
+        <parameters>
+          <param name="assembly-format" value="%version%.0" />
+          <param name="file-format" value="%version%.%build.counter%" />
+          <param name="info-format" value="%version%.%build.counter%-beta" />
+          <param name="patch-global-assembly-info" value="true" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+
