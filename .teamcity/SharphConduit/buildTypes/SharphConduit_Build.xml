@@ -12,20 +12,7 @@
       <param name="testProjectName" value="" />
       <param name="version" value="0.1.3" />
     </parameters>
-    <build-runners>
-      <runner id="RUNNER_16" name="" type="jb.nuget.pack">
-        <parameters>
-          <param name="nuget.pack.as.artifact" value="true" />
-          <param name="nuget.pack.commandline" value="-MsbuildPath /usr/lib/mono/msbuild/15.0/bin/" />
-          <param name="nuget.pack.output.directory" value="output/" />
-          <param name="nuget.pack.project.dir" value="as_is" />
-          <param name="nuget.pack.properties" value="Configuration=Release" />
-          <param name="nuget.pack.specFile" value="%pathPrefix%%primaryProjectName%/%primaryProjectName%.csproj" />
-          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
-          <param name="teamcity.step.mode" value="default" />
-        </parameters>
-      </runner>
-    </build-runners>
+    <build-runners />
     <vcs-settings>
       <vcs-entry-ref root-id="SharphConduit_SharphConduit" />
     </vcs-settings>
