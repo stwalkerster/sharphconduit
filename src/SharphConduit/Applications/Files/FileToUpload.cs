@@ -19,8 +19,6 @@
 
 using System;
 using System.IO;
-using System.Threading.Tasks;
-using PCLStorage;
 using Stwalkerster.SharphConduit.Utility;
 
 namespace Stwalkerster.SharphConduit.Applications.Files
@@ -62,19 +60,7 @@ namespace Stwalkerster.SharphConduit.Applications.Files
         /// </returns>
         private Stream OpenFileStream()
         {
-            Task<IFile> fileFromPathTask = FileSystem.Current.GetFileFromPathAsync(this.Path);
-            fileFromPathTask.RunSynchronously();
-            var file = fileFromPathTask.Result;
-
-            if (file == null)
-            {
-                throw new Exception("Nonexistent file");
-            }
-
-            var openTask = file.OpenAsync(FileAccess.Read);
-            openTask.RunSynchronously();
-
-            Stream fileStream = openTask.Result;
+            var fileStream = File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
             return fileStream;
         }
 

@@ -10,7 +10,7 @@
     <projectUrl>https://phabricator.stwalkerster.co.uk/project/profile/25/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <copyright>Copyright © 2016 Simon Walker</copyright>
+    <copyright>Copyright © 2020 Simon Walker</copyright>
     <tags>Phabricator Conduit Maniphest</tags>
   </metadata>
 </package>	

@@ -23,7 +23,7 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyCompany("Simon Walker")]
 [assembly: AssemblyProduct("SharphConduit")]
-[assembly: AssemblyCopyright("Copyright © 2016 Simon Walker")]
+[assembly: AssemblyCopyright("Copyright © 2020 Simon Walker")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,5 +34,5 @@ using System.Reflection;
 //      Revision      }
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("0.1.3.*")]
-[assembly: AssemblyInformationalVersion("0.1.3-alpha")]
+[assembly: AssemblyVersion("0.2.*")]
+[assembly: AssemblyInformationalVersion("0.2-alpha")]

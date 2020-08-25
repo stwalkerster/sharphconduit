@@ -19,7 +19,7 @@
 namespace Stwalkerster.ConduitTestApplication
 {
     using System.Collections.Generic;
-
+    using System.Linq;
     using Stwalkerster.SharphConduit;
     using Stwalkerster.SharphConduit.Applications;
     using Stwalkerster.SharphConduit.Applications.Maniphest;
@@ -41,8 +41,13 @@ namespace Stwalkerster.ConduitTestApplication
             // Don't change this from scimonshouse.net or you'll leak credentials! //
             // This is an internal-only development install
             // --------------------------------------------------------------------//
-            string phabUrl = "https://phabricator-dev.scimonshouse.net/";
-            string token = "api-afsnrvwx2jkls47ti7ododlqnxwz";
+            string phabUrl = "https://phabricator.stwalkerster.co.uk/";
+            phabUrl = "https://fab.scimonshouse.net/";
+            
+            string token = "api-pthzak4snefxww3rzllecspgilpj";
+            
+            
+            token = "api-rul3ssevvzaedtdqxhdhg6sfzajv";
 
             var client = new ConduitClient(phabUrl, token);
             
@@ -50,14 +55,9 @@ namespace Stwalkerster.ConduitTestApplication
 
             var constraint = ManiphestSearchConstraintFactory.Statuses(new List<string> { "open" });
             var searchConstraints = new List<ApplicationEditorSearchConstraint> { constraint };
-            IEnumerable<ManiphestTask> response = maniphest.Search(constraints: searchConstraints);
+            IEnumerable<ManiphestTask> response = maniphest.Search(constraints: searchConstraints).ToList();
 
-            var task = new ManiphestTask();
-
-            task.Title = "Example task";
-            task.Description = "Example description";
-            
-            maniphest.Edit(task);
+  
         }
     }
 }

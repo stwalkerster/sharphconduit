@@ -18,10 +18,11 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using HashLib;
 
 namespace Stwalkerster.SharphConduit.Utility
 {
+    using System.Security.Cryptography;
+
     /// <summary>
     /// The crypto provider.
     /// </summary>
@@ -38,9 +39,11 @@ namespace Stwalkerster.SharphConduit.Utility
         /// </returns>
         public static string CalculateSHA1(this byte[] data)
         {
-            IHash sha1 = HashFactory.Crypto.CreateSHA1();
-            var computeBytes = sha1.ComputeBytes(data);
-            return Convert.ToBase64String(computeBytes.GetBytes());
+            using (var engine = new SHA1Managed())
+            {
+                var hash = engine.ComputeHash(data);
+                return Convert.ToBase64String(hash);
+            }
         }
     }
 }
