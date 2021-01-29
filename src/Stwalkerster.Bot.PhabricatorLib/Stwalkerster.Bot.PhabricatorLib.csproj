@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RootNamespace>Stwalkerster.Bot.PhabricatorLib</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>Simon Walker</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageVersion>0.0-dev</PackageVersion>
+    <Title>Stwalkerster.Bot.PhabricatorLib</Title>
     <Authors>Simon Walker</Authors>
     <Description>A C# library for Phabricator's Conduit interface</Description>
     <Copyright>Copyright © 2021 Simon Walker</Copyright>
